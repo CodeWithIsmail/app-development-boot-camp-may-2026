@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 final appNameTextStyle = TextStyle(
@@ -22,3 +24,75 @@ final colorList = ColorScheme.light(
   secondary: Color(0xFF6C5B7B),
   tertiary: Color(0xFFC06C84),
 );
+
+const welcomeTextStyle = TextStyle(
+  color: Colors.blueGrey,
+  fontSize: 15,
+  fontWeight: FontWeight.bold,
+);
+
+const nameTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+);
+
+const netBalTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 15,
+  // fontWeight: FontWeight.bold,
+);
+
+const balTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 40,
+  fontWeight: FontWeight.bold,
+);
+
+const customGradient = LinearGradient(
+  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
+);
+
+const dashboardGradient = LinearGradient(
+  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
+  transform: GradientRotation(pi / 4),
+);
+
+final dashboardShadow = BoxShadow(
+  color: Colors.grey.shade500,
+  offset: Offset(5, 5),
+  blurRadius: 10,
+);
+
+const expensesTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+);
+
+const expenseTitleTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 17,
+  fontWeight: FontWeight.w500,
+);
+const expenseValTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+);
+const expenseDayTextStyle = TextStyle(
+  color: Colors.blueGrey,
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+);
+
+final expenseTileDecoration = BoxDecoration(
+  borderRadius: BorderRadius.circular(15),
+  color: Colors.white,
+  boxShadow: [
+    BoxShadow(color: Colors.grey.shade400, offset: Offset(1, 3), blurRadius: 5),
+  ],
+);
+
+const selectColor = Colors.lightBlueAccent;
+const unselectColor = Colors.grey;

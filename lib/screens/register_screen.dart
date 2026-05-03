@@ -61,10 +61,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         initialBalance: initBal,
       );
 
-      LocalExpenseService(username);
+      final localExpenseService = LocalExpenseService(username);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(localExpenseService),
+        ),
       );
     } on Exception {
       AppToast('Username already exists. Try another username.').showToast();

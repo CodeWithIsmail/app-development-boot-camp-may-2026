@@ -26,8 +26,8 @@ class AuthWrapper extends StatelessWidget {
 
         if (snapshot.hasData && snapshot.data != null) {
           final displayName = snapshot.data!;
-          LocalExpenseService(displayName);
-          return HomeScreen();
+          final localExpenseService = LocalExpenseService(displayName);
+          return HomeScreen(localExpenseService);
         } else {
           return LoginOrRegistration();
         }
