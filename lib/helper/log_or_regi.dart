@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/screens/login.dart';
-import 'package:mexpense/screens/register.dart';
+import 'package:mexpense/screens/login_screen.dart';
+import 'package:mexpense/screens/register_screen.dart';
 
 class LoginOrRegistration extends StatefulWidget {
   const LoginOrRegistration({super.key});
@@ -21,9 +21,9 @@ class _LoginOrRegistrationState extends State<LoginOrRegistration> {
   @override
   Widget build(BuildContext context) {
     if (loginpage) {
-      return Login(togglepage);
+      return LoginScreen(togglepage);
     } else {
-      return Register(togglepage);
+      return RegisterScreen(togglepage);
     }
   }
 }

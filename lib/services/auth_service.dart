@@ -12,7 +12,7 @@ class AuthService {
   factory AuthService() => _instance;
   AuthService._internal();
 
-  final String _prefsKey = 'money_mate_user_id';
+  final String _prefsKey = 'mexpense_user_id';
 
   Future<String> _hashPassword(String password) async {
     final bytes = utf8.encode(password);
@@ -39,7 +39,6 @@ class AuthService {
       'current_balance': initialBalance,
     });
 
-    // Insert initial balance as an expense record (Income / Initial Balance)
     DateFormat dateFormat = DateFormat('dd-MMM-yy');
     final now = DateTime.now();
     await _db.insertExpense({

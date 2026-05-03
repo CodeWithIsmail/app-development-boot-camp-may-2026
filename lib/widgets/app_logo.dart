@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/helper/constants.dart';
 
-class AppIcon extends StatelessWidget {
-  const AppIcon({super.key});
+class AppLogo extends StatelessWidget {
+  const AppLogo({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyButtonGestureDetector extends StatelessWidget {
-  void Function()? function;
-  String text;
+class PrimaryButton extends StatelessWidget {
+  final void Function()? function;
+  final String text;
 
-  MyButtonGestureDetector(this.function, this.text);
+  const PrimaryButton(this.function, this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MyButtonGestureDetector extends StatelessWidget {
         width: double.infinity,
         height: kToolbarHeight,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white.withValues(alpha: 0.8),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Text(text, style: TextStyle(fontSize: 20, color: Colors.black)),

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
-  String hint;
-  TextEditingController controll;
-  bool obscure;
-  int keyboardtype;
+class CustomTextField extends StatelessWidget {
+  final String hint;
+  final TextEditingController controll;
+  final bool obscure;
+  final int keyboardtype;
 
-  MyTextField(this.hint, this.controll, this.obscure, this.keyboardtype);
+  const CustomTextField(
+    this.hint,
+    this.controll,
+    this.obscure,
+    this.keyboardtype, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class MyTextField extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 20),
         hintText: hint,
         filled: true,
-        fillColor: Colors.white.withOpacity(0.8),
+        fillColor: Colors.white.withValues(alpha: 0.8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,

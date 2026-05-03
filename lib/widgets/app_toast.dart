@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class CustomToast {
+class AppToast {
   String text;
 
-  CustomToast(this.text);
+  AppToast(this.text);
 
-  void ShowToast() {
+  void showToast() {
     Fluttertoast.showToast(
       msg: text,
       toastLength: Toast.LENGTH_SHORT,

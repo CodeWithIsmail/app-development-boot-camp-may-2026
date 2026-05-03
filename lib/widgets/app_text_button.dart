@@ -1,21 +1,20 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-class MyTextGestureDetector extends StatelessWidget {
-  void Function()? function;
-  String text;
-  Color textcolor;
-  double fontsize;
-  bool bold;
+class AppTextButton extends StatelessWidget {
+  final void Function()? function;
+  final String text;
+  final Color textcolor;
+  final double fontsize;
+  final bool bold;
 
-  MyTextGestureDetector(
+  const AppTextButton(
     this.text,
     this.textcolor,
     this.fontsize,
     this.bold,
-    this.function,
-  );
+    this.function, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

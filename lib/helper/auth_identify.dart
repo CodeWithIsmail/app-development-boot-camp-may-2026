@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/helper/LogOrRegi.dart';
-import 'package:mexpense/screens/home.dart';
+import 'package:mexpense/helper/log_or_regi.dart';
+import 'package:mexpense/screens/home_screen.dart';
 import 'package:mexpense/services/auth_service.dart';
 import 'package:mexpense/services/database_helper.dart';
 import 'package:mexpense/services/local_expense_service.dart';
 
 class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
@@ -25,10 +26,8 @@ class AuthWrapper extends StatelessWidget {
 
         if (snapshot.hasData && snapshot.data != null) {
           final displayName = snapshot.data!;
-          LocalExpenseService firestoreService = LocalExpenseService(
-            displayName,
-          );
-          return Homescreen();
+          LocalExpenseService(displayName);
+          return HomeScreen();
         } else {
           return LoginOrRegistration();
         }

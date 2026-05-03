@@ -1,46 +1,35 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:mexpense/custom/AppNameIcon.dart';
-import 'package:mexpense/custom/CustomToast.dart';
-import 'package:mexpense/custom/MyButtonGestureDetector.dart';
-import 'package:mexpense/custom/MyTextField.dart';
-import 'package:mexpense/custom/MyTextGestureDetector.dart';
 import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/screens/home.dart';
+import 'package:mexpense/screens/home_screen.dart';
 import 'package:mexpense/services/auth_service.dart';
 import 'package:mexpense/services/local_expense_service.dart';
+import 'package:mexpense/widgets/widgets.dart';
 
-class Login extends StatefulWidget {
-  void Function()? togglefunction;
+class LoginScreen extends StatefulWidget {
+  final void Function()? togglefunction;
 
-  Login(this.togglefunction);
+  const LoginScreen(this.togglefunction, {super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController uname = TextEditingController();
   TextEditingController pass = TextEditingController();
 
   void login() async {
     try {
       final username = uname.text.toLowerCase();
-      final userId = await AuthService().signIn(
-        username: username,
-        password: pass.text,
-      );
-      LocalExpenseService localExpenseService = LocalExpenseService(username);
+      await AuthService().signIn(username: username, password: pass.text);
+      LocalExpenseService(username);
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => Homescreen(),
-        ),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } on Exception catch (e) {
-      CustomToast('Invalid credential. Login failed.').ShowToast();
+    } on Exception {
+      AppToast('Invalid credential. Login failed.').showToast();
     }
   }
 
@@ -55,16 +44,16 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppIcon(),
+                AppLogo(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
                     children: [
-                      MyTextField('Username', uname, false, 1),
+                      CustomTextField('Username', uname, false, 1),
                       SizedBox(height: 20),
-                      MyTextField('Password', pass, true, 1),
+                      CustomTextField('Password', pass, true, 1),
                       SizedBox(height: 40),
-                      MyButtonGestureDetector(login, 'Login'),
+                      PrimaryButton(login, 'Login'),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +62,7 @@ class _LoginState extends State<Login> {
                             'Don\'t have an account?  ',
                             style: TextStyle(color: Colors.white),
                           ),
-                          MyTextGestureDetector(
+                          AppTextButton(
                             'Register here',
                             Colors.grey.shade100,
                             14,

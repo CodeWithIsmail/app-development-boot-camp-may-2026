@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/custom/AppNameIcon.dart';
-import 'package:mexpense/custom/CustomToast.dart';
-import 'package:mexpense/custom/MyButtonGestureDetector.dart';
-import 'package:mexpense/custom/MyTextField.dart';
-import 'package:mexpense/custom/MyTextGestureDetector.dart';
 import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/screens/home.dart';
+import 'package:mexpense/screens/home_screen.dart';
 import 'package:mexpense/services/auth_service.dart';
 import 'package:mexpense/services/local_expense_service.dart';
+import 'package:mexpense/widgets/widgets.dart';
 
-class Register extends StatefulWidget {
-  void Function()? togglefunction;
+class RegisterScreen extends StatefulWidget {
+  final void Function()? togglefunction;
 
-  Register(this.togglefunction);
+  const RegisterScreen(this.togglefunction, {super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController uname = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController conpass = TextEditingController();
   TextEditingController initialBal = TextEditingController();
 
-  // Helper function to validate username format
   bool _isValidUsername(String username) {
     final RegExp usernameRegExp = RegExp(r'^[a-zA-Z0-9]+$');
     return usernameRegExp.hasMatch(username);
@@ -38,44 +33,41 @@ class _RegisterState extends State<Register> {
           pass.text.isEmpty ||
           conpass.text.isEmpty ||
           initialBal.text.isEmpty) {
-        CustomToast('All fields must be filled').ShowToast();
+        AppToast('All fields must be filled').showToast();
         return;
       }
 
       if (!_isValidUsername(uname.text)) {
-        CustomToast(
-          'Username must contain only letters and numbers',
-        ).ShowToast();
+        AppToast('Username must contain only letters and numbers').showToast();
         return;
       }
 
       if (pass.text.length < 6) {
-        CustomToast('Password must be at least 6 characters').ShowToast();
+        AppToast('Password must be at least 6 characters').showToast();
         return;
       }
 
       if (pass.text != conpass.text) {
-        CustomToast('Passwords don\'t match').ShowToast();
+        AppToast('Passwords don\'t match').showToast();
         return;
       }
 
-      // Use local AuthService to create user and initial balance
       final username = uname.text.toLowerCase();
       final double initBal = double.parse(initialBal.text);
-      final int userId = await AuthService().signUp(
+      await AuthService().signUp(
         name: name.text,
         username: username,
         password: pass.text,
         initialBalance: initBal,
       );
 
-      LocalExpenseService localExpenseService = LocalExpenseService(username);
+      LocalExpenseService(username);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Homescreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } on Exception catch (e) {
-      CustomToast('Username already exists. Try another username.').ShowToast();
+    } on Exception {
+      AppToast('Username already exists. Try another username.').showToast();
     }
   }
 
@@ -90,22 +82,22 @@ class _RegisterState extends State<Register> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppIcon(),
+                AppLogo(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
                     children: [
-                      MyTextField('Name', name, false, 1),
+                      CustomTextField('Name', name, false, 1),
                       SizedBox(height: 20),
-                      MyTextField('Username', uname, false, 1),
+                      CustomTextField('Username', uname, false, 1),
                       SizedBox(height: 20),
-                      MyTextField('Password', pass, true, 1),
+                      CustomTextField('Password', pass, true, 1),
                       SizedBox(height: 20),
-                      MyTextField('Confirm Password', conpass, true, 1),
+                      CustomTextField('Confirm Password', conpass, true, 1),
                       SizedBox(height: 20),
-                      MyTextField('Current balance', initialBal, true, 0),
+                      CustomTextField('Current balance', initialBal, true, 0),
                       SizedBox(height: 40),
-                      MyButtonGestureDetector(regi, 'Register'),
+                      PrimaryButton(regi, 'Register'),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +106,7 @@ class _RegisterState extends State<Register> {
                             'Already have an account?  ',
                             style: TextStyle(color: Colors.white),
                           ),
-                          MyTextGestureDetector(
+                          AppTextButton(
                             'Login here',
                             Colors.grey.shade100,
                             14,

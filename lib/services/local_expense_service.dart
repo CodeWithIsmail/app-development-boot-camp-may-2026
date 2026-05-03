@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:mexpense/services/database_helper.dart';
 
-/// LocalDocument and LocalQuerySnapshot are lightweight types used by the
-/// UI to remain compatible with previous Firestore-based code.
 class LocalDocument {
   final String id;
   final Map<String, dynamic> _data;
@@ -16,14 +14,10 @@ class LocalQuerySnapshot {
   LocalQuerySnapshot(this.docs);
 }
 
-/// LocalExpenseService - a lightweight local replacement for Firestore-backed
-/// access. It provides the methods the UI expects (`getRecords`, `addRecord`,
-/// `updateRecord`, `deleteRecord`) but stores data in SQLite.
 class LocalExpenseService {
-  final String collectionName; // previously used as username
+  final String collectionName;
   final DatabaseHelper _db = DatabaseHelper();
 
-  // stream controller to mimic snapshots
   final StreamController<LocalQuerySnapshot> _controller =
       StreamController.broadcast();
 
@@ -33,7 +27,6 @@ class LocalExpenseService {
 
   Future<void> _emitCurrent() async {
     try {
-      // collectionName used as username OR numeric id string; try to parse int
       int? userId = int.tryParse(collectionName);
       if (userId == null) {
         final user = await _db.getUserByUsername(collectionName);
@@ -110,8 +103,6 @@ class LocalExpenseService {
   }
 
   Stream<LocalQuerySnapshot> getRecords() {
-    // return broadcast stream
-    // ensure current data is emitted on listen
     Future.microtask(() => _emitCurrent());
     return _controller.stream;
   }
