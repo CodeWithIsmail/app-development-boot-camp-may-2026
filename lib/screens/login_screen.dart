@@ -22,11 +22,11 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final username = uname.text.toLowerCase();
       await AuthService().signIn(username: username, password: pass.text);
-      LocalExpenseService(username);
+      final localExpenseService = LocalExpenseService(username);
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen(localExpenseService)),
       );
     } on Exception {
       AppToast('Invalid credential. Login failed.').showToast();
