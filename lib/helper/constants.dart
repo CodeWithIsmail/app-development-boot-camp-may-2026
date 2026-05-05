@@ -61,8 +61,28 @@ const balTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const addTextStyle = TextStyle(
-  fontSize: 22,
+const addTextStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+
+final barGradient = LinearGradient(
+  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+);
+
+final barChartLeftStyle = TextStyle(
+  color: Colors.grey,
+  fontWeight: FontWeight.bold,
+  fontSize: 14,
+);
+final barChartBottomStyle = TextStyle(
+  color: Colors.grey,
+  fontWeight: FontWeight.bold,
+  fontSize: 7,
+);
+
+const transactionTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 25,
   fontWeight: FontWeight.bold,
 );
 
