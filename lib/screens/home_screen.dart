@@ -71,7 +71,7 @@ class _HomescreenState extends State<HomeScreen> {
       ),
       body: index == 0
           ? MainScreen(widget.firestoreService)
-          : Showgraph(widget.firestoreService),
+          : VisualizationScreen(widget.firestoreService),
     );
   }
 }
