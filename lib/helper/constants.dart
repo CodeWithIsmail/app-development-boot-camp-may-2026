@@ -37,6 +37,18 @@ const nameTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const titleTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 10,
+  // fontWeight: FontWeight.bold,
+);
+
+const valueTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 20,
+  // fontWeight: FontWeight.bold,
+);
+
 const netBalTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 15,
