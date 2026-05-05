@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mexpense/components/money_dashboard.dart';
 import 'package:mexpense/helper/helpers.dart';
 import 'package:mexpense/services/services.dart';
+import 'package:mexpense/screens/screens.dart';
 
 class MainScreen extends StatefulWidget {
   final LocalExpenseService firestoreService;
@@ -160,8 +161,9 @@ class _MainscreenState extends State<MainScreen> {
 
                       return GestureDetector(
                         onDoubleTap: () {
-                          if (category != 'Initial Balance')
-                            EditOrDelete(document);
+                          if (category != 'Initial Balance') {
+                            editOrDelete(document);
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -219,10 +221,10 @@ class _MainscreenState extends State<MainScreen> {
                                       SizedBox(width: 10),
                                       CircleAvatar(
                                         radius: 15,
-                                        child: iconType[transactionType],
                                         backgroundColor: Colors.grey.withValues(
                                           alpha: 0.2,
                                         ),
+                                        child: iconType[transactionType],
                                       ),
                                     ],
                                   ),

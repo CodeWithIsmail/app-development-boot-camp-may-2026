@@ -61,6 +61,11 @@ const balTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const addTextStyle = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+);
+
 const customGradient = LinearGradient(
   colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
 );
