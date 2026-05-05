@@ -66,8 +66,8 @@ class _HomescreenState extends State<HomeScreen> {
             ),
           );
         },
-        child: AppFloatingButton(),
         shape: CircleBorder(),
+        child: AppFloatingButton(),
       ),
       body: index == 0
           ? MainScreen(widget.firestoreService)
