@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:mexpense/services/services.dart';
 import 'package:mexpense/helper/helpers.dart';
+import 'package:mexpense/services/services.dart';
 
 class AddExpense extends StatefulWidget {
   final LocalExpenseService firestoreService;
@@ -52,7 +52,7 @@ class _AddExpenseState extends State<AddExpense> {
     'Education',
     'Transport',
     'Health',
-    'Travel',
+    'Entertainment',
     'Home',
     'Others',
   ];
@@ -73,7 +73,7 @@ class _AddExpenseState extends State<AddExpense> {
         'Education',
         'Transport',
         'Health',
-        'Travel',
+        'Entertainment',
         'Home',
         'Others',
       ];
