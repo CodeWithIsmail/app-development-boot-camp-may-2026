@@ -54,13 +54,16 @@ class CategorywiseChart extends StatelessWidget {
           borderData: FlBorderData(show: false),
           sectionsSpace: 0,
           centerSpaceRadius: 0,
-          sections: showingSections(expensesData),
+          sections: showingSections(expensesData, context),
         ),
       ),
     );
   }
 
-  List<PieChartSectionData> showingSections(Map<String, double> expenses) {
+  List<PieChartSectionData> showingSections(
+    Map<String, double> expenses,
+    BuildContext context,
+  ) {
     final List<PieChartSectionData> sections = [];
     final total = expenses.values.fold(0.0, (sum, value) => sum + value);
 

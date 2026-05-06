@@ -13,7 +13,6 @@ class DatewiseChart extends StatelessWidget {
     DateTime now = endDate;
     DateTime fifteenDaysAgo = now.subtract(const Duration(days: 15));
     DateFormat dayFormat = DateFormat('dd');
-    DateFormat dateFormat = DateFormat('dd-MMM-yy');
     Map<String, double> expensesMap = {};
 
     for (int i = 14; i >= 0; i--) {

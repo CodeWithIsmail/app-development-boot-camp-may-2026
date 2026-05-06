@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mexpense/features/auth/data/repositories/auth_service.dart';
 import 'package:mexpense/features/stats/ui/widgets/money_dashboard.dart';
 import 'package:mexpense/features/transactions/data/repositories/local_expense_service.dart';
+import 'package:mexpense/features/transactions/ui/screens/add_expense_screen.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/screens/add_expense_screen.dart';
-import 'package:mexpense/screens/screens.dart';
-import 'package:mexpense/services/services.dart';
 
 class MainScreen extends StatefulWidget {
   final LocalExpenseService firestoreService;
@@ -31,19 +29,21 @@ class _MainscreenState extends State<MainScreen> {
                 String transactionType = data['Transaction_type'];
                 String category = data['Category'];
                 String date = data['date'];
-                String amount = "${data['Amount']} TK";
+                int amount = data['Amount'] as int;
+                DateTime dateTime = data['dateTime'] as DateTime;
                 widget.firestoreService.deleteRecord(document.id);
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddExpense(
-                      'Edit',
-                      transactionType,
-                      category,
-                      amount,
-                      date,
-                      widget.firestoreService,
+                    builder: (context) => AddExpenseScreen(
+                      expense: {
+                        'title': transactionType,
+                        'category': category,
+                        'amount': amount,
+                        'date': date,
+                        'dateTime': dateTime.millisecondsSinceEpoch,
+                      },
                     ),
                   ),
                 );
@@ -100,7 +100,7 @@ class _MainscreenState extends State<MainScreen> {
                         onPressed: () async {
                           await AuthService().signOut();
                           Navigator.push(
-                            context,
+                            mounted ? context : context,
                             MaterialPageRoute(
                               builder: (context) => LoginOrRegistration(),
                             ),
@@ -124,7 +124,7 @@ class _MainscreenState extends State<MainScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(17.0),
-                child: MoneyDashboard(widget.firestoreService),
+                child: MoneyDashboard(),
               ),
             ),
             SizedBox(height: 20),
@@ -200,7 +200,6 @@ class _MainscreenState extends State<MainScreen> {
                                         alignment: Alignment.center,
 
                                         child: iconMap[category],
-                                        
                                       ),
                                       SizedBox(width: 10),
                                       Text(

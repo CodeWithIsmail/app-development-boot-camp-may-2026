@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mexpense/services/database_helper.dart';
+import 'package:mexpense/core/database/database_helper.dart';
 
 class LocalDocument {
   final String id;
@@ -37,7 +37,7 @@ class LocalExpenseService {
         userId = user['id'] as int?;
       }
 
-      final rows = await _db.getExpensesForUser(userId!);
+      final rows = await _db.getExpenses(userId!);
       final docs = rows.map((r) {
         final mapped = {
           'Transaction_type': r['title'],
@@ -68,14 +68,14 @@ class LocalExpenseService {
       userId = user['id'] as int;
     }
 
-    await _db.insertExpense({
-      'user_id': userId,
-      'title': type,
-      'amount': amount,
-      'category': category,
-      'date': date,
-      'dateTime': datetime.millisecondsSinceEpoch,
-    });
+    await _db.insertExpense(
+      userId: userId,
+      title: type,
+      amount: amount.toDouble(),
+      category: category,
+      date: date,
+      dateTime: datetime.millisecondsSinceEpoch,
+    );
     await _emitCurrent();
   }
 
@@ -87,13 +87,14 @@ class LocalExpenseService {
     String id,
     DateTime datetime,
   ) async {
-    await _db.updateExpense(int.parse(id), {
-      'title': type,
-      'amount': amount,
-      'category': category,
-      'date': date,
-      'dateTime': datetime.millisecondsSinceEpoch,
-    });
+    await _db.updateExpense(
+      id: int.parse(id),
+      title: type,
+      amount: amount.toDouble(),
+      category: category,
+      date: date,
+      dateTime: datetime.millisecondsSinceEpoch,
+    );
     await _emitCurrent();
   }
 

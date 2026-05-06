@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
+import 'package:mexpense/core/database/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'database_helper.dart';
 
 class AuthService {
   final DatabaseHelper _db = DatabaseHelper();
@@ -32,23 +31,23 @@ class AuthService {
     }
 
     final pwHash = await _hashPassword(password);
-    final userId = await _db.insertUser({
-      'name': name,
-      'username': username,
-      'password_hash': pwHash,
-      'current_balance': initialBalance,
-    });
+    final userId = await _db.insertUser(
+      name: name,
+      username: username,
+      password: pwHash,
+      initialBalance: initialBalance,
+    );
 
     DateFormat dateFormat = DateFormat('dd-MMM-yy');
     final now = DateTime.now();
-    await _db.insertExpense({
-      'user_id': userId,
-      'title': 'Initial Balance',
-      'amount': initialBalance,
-      'category': 'Initial Balance',
-      'date': dateFormat.format(now),
-      'dateTime': now.millisecondsSinceEpoch,
-    });
+    await _db.insertExpense(
+      userId: userId,
+      title: 'Initial Balance',
+      amount: initialBalance,
+      category: 'Initial Balance',
+      date: dateFormat.format(now),
+      dateTime: now.millisecondsSinceEpoch,
+    );
 
     await _setCurrentUserId(userId);
     return userId;
@@ -62,7 +61,7 @@ class AuthService {
     if (user == null) throw Exception('Invalid credentials');
 
     final pwHash = await _hashPassword(password);
-    if (pwHash != user['password_hash']) throw Exception('Invalid credentials');
+    if (pwHash != user['password']) throw Exception('Invalid credentials');
 
     final int userId = user['id'] as int;
     await _setCurrentUserId(userId);

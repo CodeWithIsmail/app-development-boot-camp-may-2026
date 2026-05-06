@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:mexpense/features/transactions/providers/transaction_provider.dart';
 import 'package:mexpense/features/auth/providers/auth_provider.dart';
 import 'package:mexpense/features/transactions/ui/screens/add_expense_screen.dart';
-import 'package:mexpense/features/auth/ui/screens/login_screen.dart';
 import 'package:mexpense/features/stats/ui/widgets/money_dashboard.dart';
-import 'package:mexpense/widgets/widgets.dart';
 import 'package:mexpense/helper/helpers.dart';
 
 class MainScreen extends StatefulWidget {
@@ -31,9 +29,7 @@ class _MainscreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddExpenseScreen(
-                      expense: expense,
-                    ),
+                    builder: (context) => AddExpenseScreen(expense: expense),
                   ),
                 );
               },
@@ -41,7 +37,9 @@ class _MainscreenState extends State<MainScreen> {
             TextButton(
               child: const Text('Delete'),
               onPressed: () {
-                context.read<TransactionProvider>().deleteExpense(expense['id']);
+                context.read<TransactionProvider>().deleteExpense(
+                  expense['id'],
+                );
                 Navigator.of(context).pop();
               },
             ),
@@ -100,34 +98,35 @@ class _MainscreenState extends State<MainScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                gradient: dashboardGradient,
-                boxShadow: [dashboardShadow],
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(17.0),
-                child: MoneyDashboard(),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Transactions', style: expensesTextStyle)],
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: transactionProvider.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : transactionProvider.expenses.isEmpty
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width / 2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    gradient: dashboardGradient,
+                    boxShadow: [dashboardShadow],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(17.0),
+                    child: MoneyDashboard(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('Transactions', style: expensesTextStyle)],
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  child: transactionProvider.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : transactionProvider.expenses.isEmpty
                       ? const Center(child: Text('No records found.'))
                       : ListView.builder(
                           itemCount: transactionProvider.expenses.length,
                           itemBuilder: (context, int index) {
-                            Map<String, dynamic> expense = transactionProvider.expenses[index];
+                            Map<String, dynamic> expense =
+                                transactionProvider.expenses[index];
 
                             String transactionType = expense['title'];
                             String category = expense['category'];
@@ -155,13 +154,15 @@ class _MainscreenState extends State<MainScreen> {
                                       horizontal: 10,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                color: Colors.tealAccent.withValues(alpha: 0.1),
+                                                color: Colors.tealAccent
+                                                    .withValues(alpha: 0.1),
                                                 shape: BoxShape.circle,
                                               ),
                                               width: 45,
@@ -179,7 +180,8 @@ class _MainscreenState extends State<MainScreen> {
                                         Row(
                                           children: [
                                             Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   amount,
@@ -194,7 +196,8 @@ class _MainscreenState extends State<MainScreen> {
                                             const SizedBox(width: 10),
                                             CircleAvatar(
                                               radius: 15,
-                                              backgroundColor: Colors.grey.withValues(alpha: 0.2),
+                                              backgroundColor: Colors.grey
+                                                  .withValues(alpha: 0.2),
                                               child: iconType[transactionType],
                                             ),
                                           ],
@@ -207,10 +210,12 @@ class _MainscreenState extends State<MainScreen> {
                             );
                           },
                         ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    } 
+          ),
+        );
+      },
+    );
   }
 }

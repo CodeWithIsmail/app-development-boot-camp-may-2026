@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mexpense/features/transactions/providers/transaction_provider.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/shared/widgets/widgets.dart';
+import 'package:mexpense/widgets/balance_show_group.dart';
 import 'package:provider/provider.dart';
 
 class MoneyDashboard extends StatelessWidget {

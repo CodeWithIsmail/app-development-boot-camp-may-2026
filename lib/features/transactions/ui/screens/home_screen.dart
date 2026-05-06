@@ -4,7 +4,6 @@ import 'package:mexpense/features/transactions/ui/screens/add_expense_screen.dar
 import 'package:mexpense/features/transactions/ui/screens/main_screen.dart';
 import 'package:mexpense/helper/constants.dart';
 import 'package:mexpense/widgets/widgets.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
