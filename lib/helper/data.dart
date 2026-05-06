@@ -60,7 +60,7 @@ Map<String, Widget> iconMap = {
     fit: BoxFit.contain,
   ),
   'Home': Image.asset(
-    'assets/house.png',
+    'assets/home.png',
     width: 30,
     height: 30,
     fit: BoxFit.contain,
