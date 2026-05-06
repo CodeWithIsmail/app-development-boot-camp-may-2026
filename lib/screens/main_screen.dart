@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/components/money_dashboard.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
 import 'package:mexpense/screens/screens.dart';
+import 'package:mexpense/services/services.dart';
 
 class MainScreen extends StatefulWidget {
   final LocalExpenseService firestoreService;
@@ -187,13 +187,17 @@ class _MainscreenState extends State<MainScreen> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                          gradient: colorMap[category],
+                                          color: Colors.tealAccent.withValues(
+                                            alpha: 0.1,
+                                          ),
                                           shape: BoxShape.circle,
                                         ),
                                         width: 45,
                                         height: 45,
                                         alignment: Alignment.center,
+
                                         child: iconMap[category],
+                                        
                                       ),
                                       SizedBox(width: 10),
                                       Text(

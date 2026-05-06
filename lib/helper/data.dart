@@ -19,21 +19,76 @@ List<String> category = [
   'Home',
   'Transport',
   'Health',
-  'Travel',
+  'Entertainment',
   'Others',
 ];
 Map<String, Widget> iconMap = {
-  'Food': FaIcon(FontAwesomeIcons.burger, color: Colors.white),
-  'Shopping': FaIcon(FontAwesomeIcons.bagShopping, color: Colors.white),
-  'Education': FaIcon(FontAwesomeIcons.book, color: Colors.white),
-  'Transport': FaIcon(FontAwesomeIcons.bus, color: Colors.white),
-  'Health': Icon(Icons.medical_information_rounded, color: Colors.white),
-  'Travel': FaIcon(FontAwesomeIcons.plane, color: Colors.white),
-  'Home': FaIcon(FontAwesomeIcons.house, color: Colors.white),
-  'Others': FaIcon(FontAwesomeIcons.moneyBill, color: Colors.white),
-  'Saving': FaIcon(FontAwesomeIcons.buildingColumns, color: Colors.white),
-  'Salary': FaIcon(FontAwesomeIcons.dollarSign, color: Colors.white),
-  'Initial Balance': FaIcon(FontAwesomeIcons.dollarSign, color: Colors.white),
+  'Food': Image.asset(
+    'assets/food.png',
+    fit: BoxFit.contain,
+    width: 30,
+    height: 30,
+  ),
+  'Shopping': Image.asset(
+    'assets/shopping.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Education': Image.asset(
+    'assets/education.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Transport': Image.asset(
+    'assets/transport.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Health': Image.asset(
+    'assets/health.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Entertainment': Image.asset(
+    'assets/entertainment.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Home': Image.asset(
+    'assets/house.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Others': Image.asset(
+    'assets/other.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Saving':Image.asset(
+    'assets/salary.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Salary': Image.asset(
+    'assets/salary.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
+  'Initial Balance':Image.asset(
+    'assets/salary.png',
+    width: 30,
+    height: 30,
+    fit: BoxFit.contain,
+  ),
 };
 
 Map<String, Widget> iconType = {
@@ -82,7 +137,7 @@ Map<String, LinearGradient> colorMap = {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   ),
-  'Travel': LinearGradient(
+  'Entertainment': LinearGradient(
     colors: [
       Colors.blueGrey.withValues(alpha: 1.0),
       Colors.blueGrey.withValues(alpha: 0.85),

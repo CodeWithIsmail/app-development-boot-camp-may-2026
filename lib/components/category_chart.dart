@@ -3,6 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:mexpense/helper/helpers.dart';
 import 'package:mexpense/services/services.dart';
 
+final Map<String, String> categoryIconMap = {
+  'Food': 'assets/food.png',
+  'Shopping': 'assets/shopping.png',
+  'Education': 'assets/education.png',
+  'Transport': 'assets/transport.png',
+  'Health': 'assets/health.png',
+  'Entertainment': 'assets/entertainment.png',
+  'Home': 'assets/home.png',
+  'Others': 'assets/other.png',
+};
+
 class CategorywiseChart extends StatefulWidget {
   final LocalExpenseService firestoreService;
 
@@ -22,16 +33,9 @@ class _CategorywiseChartState extends State<CategorywiseChart> {
   }
 
   Stream<Map<String, double>> getExpensesStream() async* {
-    // DateTime now = DateTime.now();
-    // DateTime fifteenDaysAgo = now.subtract(Duration(days: 15));
-    // DateFormat dateFormat = DateFormat('dd-MMM-yy');
-    Map<String, double> expenses = {};
-
-    for (String category in category) {
-      expenses[category] = 0;
-    }
-
     yield* widget.firestoreService.getRecords().map((querySnapshot) {
+      final Map<String, double> expenses = {for (final cat in category) cat: 0};
+
       final filteredDocs = querySnapshot.docs.where((doc) {
         return doc.data()['Transaction_type'] == 'Expense';
       }).toList();
@@ -58,67 +62,96 @@ class _CategorywiseChartState extends State<CategorywiseChart> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(child: Text('No data available'));
         } else {
-          return BarChart(mainBarChartData(snapshot.data!));
+          return Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.65,
+            ),
+            alignment: Alignment.center,
+            child: PieChart(
+              PieChartData(
+                borderData: FlBorderData(show: false),
+
+                sectionsSpace: 0,
+                centerSpaceRadius: 0,
+                sections: showingSections(snapshot.data!),
+              ),
+            ),
+          );
         }
       },
     );
   }
 
-  BarChartData mainBarChartData(Map<String, double> expenses) {
-    List<BarChartGroupData> barGroups = [];
+  List<PieChartSectionData> showingSections(Map<String, double> expenses) {
+    final List<PieChartSectionData> sections = [];
+    final total = expenses.values.fold(0.0, (sum, value) => sum + value);
 
-    for (int i = 0; i < expenses.length; i++) {
-      barGroups.add(
-        BarChartGroupData(
-          x: i,
-          barRods: [
-            BarChartRodData(
-              width: 10,
-              toY: expenses[category[i]]!,
-              gradient: barGradient,
-            ),
-          ],
+    if (total <= 0) {
+      return sections;
+    }
+
+    for (int i = 0; i < category.length; i++) {
+      final categoryName = category[i];
+      final amount = expenses[categoryName] ?? 0.0;
+
+      if (amount == 0) continue;
+
+      final fontSize = 16.0;
+      final radius = MediaQuery.of(context).size.width * 0.37;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+
+      final percentage = ((amount / total) * 100).toStringAsFixed(0);
+
+      sections.add(
+        PieChartSectionData(
+          color: colorMap[categoryName]?.colors.first ?? Colors.grey,
+          value: amount,
+          title: '$percentage%',
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: shadows,
+          ),
+          badgeWidget: _Badge(
+            categoryIconMap[categoryName] ?? 'assets/other.png',
+            size: 40.0,
+          ),
+          badgePositionPercentageOffset: 0.98,
         ),
       );
     }
 
-    return BarChartData(
-      titlesData: FlTitlesData(
-        show: true,
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            reservedSize: 60,
-            showTitles: true,
-            getTitlesWidget: leftTitles,
+    return sections;
+  }
+}
+
+class _Badge extends StatelessWidget {
+  final String assetPath;
+  final double size;
+
+  const _Badge(this.assetPath, {required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.black, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.35),
+            offset: const Offset(2, 2),
+            blurRadius: 4,
           ),
-        ),
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: true, getTitlesWidget: getTitles),
-        ),
+        ],
       ),
-      borderData: FlBorderData(show: false),
-      gridData: FlGridData(show: false),
-      barGroups: barGroups,
-    );
-  }
-
-  Widget getTitles(double value, TitleMeta meta) {
-    String text = category[value.toInt()];
-    return SideTitleWidget(
-      meta: meta,
-      space: 2,
-      child: Text(text, style: barChartBottomStyle),
-    );
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    String text = value.toInt().round().toString();
-    return SideTitleWidget(
-      meta: meta,
-      space: 2,
-      child: Text(text, style: barChartLeftStyle),
+      padding: EdgeInsets.all(size * 0.15),
+      child: Image.asset(assetPath, fit: BoxFit.contain),
     );
   }
 }

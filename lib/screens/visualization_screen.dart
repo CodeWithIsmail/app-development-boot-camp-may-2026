@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mexpense/components/category_chart.dart';
 import 'package:mexpense/components/datewise_chart.dart';
-import 'package:mexpense/services/services.dart';
 import 'package:mexpense/helper/helpers.dart';
+import 'package:mexpense/services/services.dart';
 
 class VisualizationScreen extends StatefulWidget {
   final LocalExpenseService firestoreService;
@@ -89,7 +89,7 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                 ),
               ),
               SizedBox(height: 50),
-              Text('Category - Expense Bar Chart', style: transactionTextStyle),
+              Text('Category - Expense Pie Chart', style: transactionTextStyle),
               SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
