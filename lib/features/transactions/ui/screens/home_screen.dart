@@ -1,13 +1,13 @@
-import 'package:mexpense/services/services.dart';
-import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/screens/screens.dart';
-import 'package:mexpense/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:mexpense/features/stats/ui/screens/visualization_screen.dart';
+import 'package:mexpense/features/transactions/ui/screens/add_expense_screen.dart';
+import 'package:mexpense/features/transactions/ui/screens/main_screen.dart';
+import 'package:mexpense/helper/constants.dart';
+import 'package:mexpense/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-
-  const HomeScreen(this.firestoreService, {super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomescreenState();
@@ -54,24 +54,13 @@ class _HomescreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => AddExpense(
-                'Add',
-                'Expense',
-                'Food',
-                '',
-                '',
-                widget.firestoreService,
-              ),
-            ),
+            MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
           );
         },
         shape: CircleBorder(),
         child: AppFloatingButton(),
       ),
-      body: index == 0
-          ? MainScreen(widget.firestoreService)
-          : VisualizationScreen(widget.firestoreService),
+      body: index == 0 ? const MainScreen() : const VisualizationScreen(),
     );
   }
 }

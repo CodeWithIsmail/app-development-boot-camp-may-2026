@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mexpense/features/auth/providers/auth_provider.dart';
 import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/screens/home_screen.dart';
-import 'package:mexpense/services/auth_service.dart';
-import 'package:mexpense/services/local_expense_service.dart';
-import 'package:mexpense/widgets/widgets.dart';
+import 'package:mexpense/widgets/app_logo.dart';
+import 'package:mexpense/widgets/app_text_button.dart';
+import 'package:mexpense/widgets/app_toast.dart';
+import 'package:mexpense/widgets/custom_text_field.dart';
+import 'package:mexpense/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   final void Function()? togglefunction;
@@ -27,48 +30,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void regi() async {
-    try {
-      if (name.text.isEmpty ||
-          uname.text.isEmpty ||
-          pass.text.isEmpty ||
-          conpass.text.isEmpty ||
-          initialBal.text.isEmpty) {
-        AppToast('All fields must be filled').showToast();
-        return;
-      }
+    if (name.text.isEmpty ||
+        uname.text.isEmpty ||
+        pass.text.isEmpty ||
+        conpass.text.isEmpty ||
+        initialBal.text.isEmpty) {
+      AppToast('All fields must be filled').showToast();
+      return;
+    }
 
-      if (!_isValidUsername(uname.text)) {
-        AppToast('Username must contain only letters and numbers').showToast();
-        return;
-      }
+    if (!_isValidUsername(uname.text)) {
+      AppToast('Username must contain only letters and numbers').showToast();
+      return;
+    }
 
-      if (pass.text.length < 6) {
-        AppToast('Password must be at least 6 characters').showToast();
-        return;
-      }
+    if (pass.text.length < 6) {
+      AppToast('Password must be at least 6 characters').showToast();
+      return;
+    }
 
-      if (pass.text != conpass.text) {
-        AppToast('Passwords don\'t match').showToast();
-        return;
-      }
+    if (pass.text != conpass.text) {
+      AppToast('Passwords don\'t match').showToast();
+      return;
+    }
 
-      final username = uname.text.toLowerCase();
-      final double initBal = double.parse(initialBal.text);
-      await AuthService().signUp(
-        name: name.text,
-        username: username,
-        password: pass.text,
-        initialBalance: initBal,
-      );
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.signUp(
+      name: name.text,
+      username: uname.text.toLowerCase(),
+      password: pass.text,
+      initialBalance: double.parse(initialBal.text),
+    );
 
-      final localExpenseService = LocalExpenseService(username);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(localExpenseService),
-        ),
-      );
-    } on Exception {
+    if (authProvider.error == null) {
+      // Navigation handled by app.dart
+    } else {
       AppToast('Username already exists. Try another username.').showToast();
     }
   }

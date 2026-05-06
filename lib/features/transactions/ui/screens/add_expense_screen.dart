@@ -1,73 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:mexpense/features/transactions/providers/transaction_provider.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
+import 'package:provider/provider.dart';
 
-class AddExpense extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-  String expenseDropDownText;
-  String transactionDropDownText;
-  final String amount;
-  final String date;
-  final String title;
+class AddExpenseScreen extends StatefulWidget {
+  final Map<String, dynamic>? expense; // For edit mode
 
-  AddExpense(
-    this.title,
-    this.transactionDropDownText,
-    this.expenseDropDownText,
-    this.amount,
-    this.date,
-    this.firestoreService, {
-    super.key,
-  });
+  const AddExpenseScreen({super.key, this.expense});
 
   @override
-  State<AddExpense> createState() => _AddExpenseState();
+  State<AddExpenseScreen> createState() => _AddExpenseScreenState();
 }
 
-class _AddExpenseState extends State<AddExpense> {
+class _AddExpenseScreenState extends State<AddExpenseScreen> {
   TextEditingController amountCon = TextEditingController();
   TextEditingController dateCon = TextEditingController();
   DateTime selected = DateTime.now();
 
+  String transactionDropDownText = 'Expense';
+  String expenseDropDownText = 'Food';
+
   @override
   void initState() {
-    if (widget.title == 'Edit') {
-      dateCon.text = widget.date;
-      String input = widget.amount;
-      String amount = input.substring(0, input.indexOf(' '));
-      amountCon.text = amount;
+    super.initState();
+    if (widget.expense != null) {
+      // Edit mode
+      final expense = widget.expense!;
+      transactionDropDownText = expense['title'];
+      expenseDropDownText = expense['category'];
+      amountCon.text = expense['amount'].toString();
+      dateCon.text = expense['date'];
+      selected = DateTime.fromMillisecondsSinceEpoch(expense['dateTime']);
     } else {
       dateCon.text = DateFormat('dd-MMM-yy').format(DateTime.now());
     }
-    super.initState();
   }
 
   var transactionType = ['Expense', 'Income'];
 
-  var expenseType = [
-    'Food',
-    'Shopping',
-    'Education',
-    'Transport',
-    'Health',
-    'Entertainment',
-    'Home',
-    'Others',
-  ];
-  var incomeType = ['Salary', 'Saving', 'Others'];
-
-  // String ExpenseDropDown = ;
-  // String TransactionDropDown = 'Expense';
-
-  void updateDropDown() {
-    if (widget.transactionDropDownText == 'Income') {
-      widget.expenseDropDownText = 'Salary';
-      expenseType = ['Salary', 'Saving', 'Others'];
+  List<String> get expenseType {
+    if (transactionDropDownText == 'Income') {
+      return ['Salary', 'Saving', 'Others'];
     } else {
-      widget.expenseDropDownText = 'Health';
-      expenseType = [
+      return [
         'Food',
         'Shopping',
         'Education',
@@ -77,6 +54,17 @@ class _AddExpenseState extends State<AddExpense> {
         'Home',
         'Others',
       ];
+    }
+  }
+
+  // String ExpenseDropDown = ;
+  // String TransactionDropDown = 'Expense';
+
+  void updateDropDown() {
+    if (transactionDropDownText == 'Income') {
+      expenseDropDownText = 'Salary';
+    } else {
+      expenseDropDownText = 'Food';
     }
   }
 
@@ -92,7 +80,10 @@ class _AddExpenseState extends State<AddExpense> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${widget.title} Transaction', style: addTextStyle),
+                Text(
+                  '${widget.expense != null ? 'Edit' : 'Add'} Transaction',
+                  style: addTextStyle,
+                ),
                 SizedBox(height: 30),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -109,8 +100,8 @@ class _AddExpenseState extends State<AddExpense> {
                       Icon(Icons.list),
                       Text('Select transaction type'),
                       DropdownButton(
-                        value: widget.transactionDropDownText,
-                        icon: Icon(Icons.keyboard_arrow_down),
+                        value: transactionDropDownText,
+                        icon: const Icon(Icons.keyboard_arrow_down),
                         items: transactionType.map((String transactionType) {
                           return DropdownMenuItem(
                             value: transactionType,
@@ -119,7 +110,7 @@ class _AddExpenseState extends State<AddExpense> {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            widget.transactionDropDownText = newValue!;
+                            transactionDropDownText = newValue!;
                             updateDropDown();
                           });
                         },
@@ -140,10 +131,10 @@ class _AddExpenseState extends State<AddExpense> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.list),
-                      Text('Select ${widget.transactionDropDownText} type'),
+                      Text('Select $transactionDropDownText type'),
                       DropdownButton(
-                        value: widget.expenseDropDownText,
-                        icon: Icon(Icons.keyboard_arrow_down),
+                        value: expenseDropDownText,
+                        icon: const Icon(Icons.keyboard_arrow_down),
                         items: expenseType.map((String expenseType) {
                           return DropdownMenuItem(
                             value: expenseType,
@@ -152,7 +143,7 @@ class _AddExpenseState extends State<AddExpense> {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            widget.expenseDropDownText = newValue!;
+                            expenseDropDownText = newValue!;
                           });
                         },
                       ),
@@ -214,28 +205,31 @@ class _AddExpenseState extends State<AddExpense> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      String type = widget.transactionDropDownText;
-                      String category = widget.expenseDropDownText;
-                      int amount = int.parse(amountCon.text.toString());
-                      String date = dateCon.text;
+                      final type = transactionDropDownText;
+                      final category = expenseDropDownText;
+                      final amount = double.parse(amountCon.text);
+                      final date = dateCon.text;
+                      final dateTime = selected.millisecondsSinceEpoch;
 
-                      DateTime parsedDate = DateFormat("dd-MMM-yy").parse(date);
-                      DateTime finalDateTime = DateTime(
-                        parsedDate.year,
-                        parsedDate.month,
-                        parsedDate.day,
-                        0,
-                        0,
-                        0,
-                        0, // Millisecond
-                      );
-                      widget.firestoreService.addRecord(
-                        type,
-                        category,
-                        amount,
-                        date,
-                        finalDateTime,
-                      );
+                      final expenseData = {
+                        'title': type,
+                        'category': category,
+                        'amount': amount,
+                        'date': date,
+                        'dateTime': dateTime,
+                      };
+
+                      final provider = context.read<TransactionProvider>();
+                      if (widget.expense != null) {
+                        // Edit
+                        provider.updateExpense(
+                          widget.expense!['id'],
+                          expenseData,
+                        );
+                      } else {
+                        // Add
+                        provider.addExpense(expenseData);
+                      }
 
                       Navigator.pop(context);
                     },

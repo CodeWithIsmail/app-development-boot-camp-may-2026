@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mexpense/components/category_chart.dart';
-import 'package:mexpense/components/datewise_chart.dart';
+import 'package:mexpense/features/stats/ui/widgets/category_chart.dart';
+import 'package:mexpense/features/stats/ui/widgets/datewise_chart.dart';
+import 'package:mexpense/features/transactions/providers/transaction_provider.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
+import 'package:provider/provider.dart';
 
 class VisualizationScreen extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-
-  const VisualizationScreen(this.firestoreService, {super.key});
+  const VisualizationScreen({super.key});
 
   @override
   State<VisualizationScreen> createState() => _VisualizationScreenState();
@@ -85,7 +84,10 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                     horizontal: 5,
                     vertical: 20,
                   ),
-                  child: DatewiseChart(widget.firestoreService, endDate),
+                  child: Consumer<TransactionProvider>(
+                    builder: (context, provider, child) =>
+                        DatewiseChart(provider.expenses, endDate),
+                  ),
                 ),
               ),
               SizedBox(height: 50),
@@ -103,7 +105,10 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                     horizontal: 5,
                     vertical: 20,
                   ),
-                  child: CategorywiseChart(widget.firestoreService),
+                  child: Consumer<TransactionProvider>(
+                    builder: (context, provider, child) =>
+                        CategorywiseChart(provider.expenses),
+                  ),
                 ),
               ),
             ],

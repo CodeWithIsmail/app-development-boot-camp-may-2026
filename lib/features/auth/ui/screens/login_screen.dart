@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/screens/home_screen.dart';
-import 'package:mexpense/services/auth_service.dart';
-import 'package:mexpense/services/local_expense_service.dart';
+import 'package:mexpense/features/auth/providers/auth_provider.dart';
 import 'package:mexpense/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   final void Function()? togglefunction;
@@ -19,16 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController pass = TextEditingController();
 
   void login() async {
-    try {
-      final username = uname.text.toLowerCase();
-      await AuthService().signIn(username: username, password: pass.text);
-      final localExpenseService = LocalExpenseService(username);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen(localExpenseService)),
-      );
-    } on Exception {
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.signIn(
+      username: uname.text.toLowerCase(),
+      password: pass.text,
+    );
+    if (authProvider.error == null) {
+      // Navigation handled by app.dart
+    } else {
       AppToast('Invalid credential. Login failed.').showToast();
     }
   }

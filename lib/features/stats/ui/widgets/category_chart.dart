@@ -1,8 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mexpense/features/transactions/data/repositories/local_expense_service.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
 
 final Map<String, String> categoryIconMap = {
   'Food': 'assets/food.png',
@@ -15,71 +13,50 @@ final Map<String, String> categoryIconMap = {
   'Others': 'assets/other.png',
 };
 
-class CategorywiseChart extends StatefulWidget {
-  final LocalExpenseService firestoreService;
+class CategorywiseChart extends StatelessWidget {
+  final List<Map<String, dynamic>> expenses;
 
-  const CategorywiseChart(this.firestoreService, {super.key});
+  const CategorywiseChart(this.expenses, {super.key});
 
-  @override
-  State<CategorywiseChart> createState() => _CategorywiseChartState();
-}
+  Map<String, double> getExpenses() {
+    final Map<String, double> expensesMap = {
+      for (final cat in category) cat: 0,
+    };
 
-class _CategorywiseChartState extends State<CategorywiseChart> {
-  late Stream<Map<String, double>> _expensesStream;
+    final filteredExpenses = expenses.where((expense) {
+      return expense['title'] == 'Expense';
+    }).toList();
 
-  @override
-  void initState() {
-    super.initState();
-    _expensesStream = getExpensesStream();
-  }
+    for (var expense in filteredExpenses) {
+      String cate = expense['category'];
+      double amount = expense['amount'] as double;
+      expensesMap[cate] = (expensesMap[cate] ?? 0) + amount;
+    }
 
-  Stream<Map<String, double>> getExpensesStream() async* {
-    yield* widget.firestoreService.getRecords().map((querySnapshot) {
-      final Map<String, double> expenses = {for (final cat in category) cat: 0};
-
-      final filteredDocs = querySnapshot.docs.where((doc) {
-        return doc.data()['Transaction_type'] == 'Expense';
-      }).toList();
-
-      for (var doc in filteredDocs) {
-        String cate = doc.data()['Category'];
-        double amount = double.tryParse(doc.data()['Amount'].toString()) ?? 0.0;
-        expenses[cate] = (expenses[cate] ?? 0) + amount;
-      }
-
-      return expenses;
-    });
+    return expensesMap;
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Map<String, double>>(
-      stream: _expensesStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No data available'));
-        } else {
-          return Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.65,
-            ),
-            alignment: Alignment.center,
-            child: PieChart(
-              PieChartData(
-                borderData: FlBorderData(show: false),
+    final expensesData = getExpenses();
 
-                sectionsSpace: 0,
-                centerSpaceRadius: 0,
-                sections: showingSections(snapshot.data!),
-              ),
-            ),
-          );
-        }
-      },
+    if (expensesData.isEmpty) {
+      return const Center(child: Text('No data available'));
+    }
+
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.65,
+      ),
+      alignment: Alignment.center,
+      child: PieChart(
+        PieChartData(
+          borderData: FlBorderData(show: false),
+          sectionsSpace: 0,
+          centerSpaceRadius: 0,
+          sections: showingSections(expensesData),
+        ),
+      ),
     );
   }
 
