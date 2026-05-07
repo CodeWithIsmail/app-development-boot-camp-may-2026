@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
+import 'package:mexpense/providers/providers.dart';
+import 'package:provider/provider.dart';
 
 class AddExpense extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-  String expenseDropDownText;
-  String transactionDropDownText;
+  final String expenseDropDownText;
+  final String transactionDropDownText;
   final String amount;
   final String date;
   final String title;
+  final String? expenseId;
 
-  AddExpense(
+  const AddExpense(
     this.title,
     this.transactionDropDownText,
     this.expenseDropDownText,
     this.amount,
-    this.date,
-    this.firestoreService, {
+    this.date, {
+    this.expenseId,
     super.key,
   });
 
@@ -30,9 +31,21 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController amountCon = TextEditingController();
   TextEditingController dateCon = TextEditingController();
   DateTime selected = DateTime.now();
+  late String expenseDropDownText;
+  late String transactionDropDownText;
+
+  @override
+  void dispose() {
+    amountCon.dispose();
+    dateCon.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
+    expenseDropDownText = widget.expenseDropDownText;
+    transactionDropDownText = widget.transactionDropDownText;
+
     if (widget.title == 'Edit') {
       dateCon.text = widget.date;
       String input = widget.amount;
@@ -62,11 +75,11 @@ class _AddExpenseState extends State<AddExpense> {
   // String TransactionDropDown = 'Expense';
 
   void updateDropDown() {
-    if (widget.transactionDropDownText == 'Income') {
-      widget.expenseDropDownText = 'Salary';
+    if (transactionDropDownText == 'Income') {
+      expenseDropDownText = 'Salary';
       expenseType = ['Salary', 'Saving', 'Others'];
     } else {
-      widget.expenseDropDownText = 'Health';
+      expenseDropDownText = 'Health';
       expenseType = [
         'Food',
         'Shopping',
@@ -109,7 +122,7 @@ class _AddExpenseState extends State<AddExpense> {
                       Icon(Icons.list),
                       Text('Select transaction type'),
                       DropdownButton(
-                        value: widget.transactionDropDownText,
+                        value: transactionDropDownText,
                         icon: Icon(Icons.keyboard_arrow_down),
                         items: transactionType.map((String transactionType) {
                           return DropdownMenuItem(
@@ -119,7 +132,7 @@ class _AddExpenseState extends State<AddExpense> {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            widget.transactionDropDownText = newValue!;
+                            transactionDropDownText = newValue!;
                             updateDropDown();
                           });
                         },
@@ -140,9 +153,9 @@ class _AddExpenseState extends State<AddExpense> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.list),
-                      Text('Select ${widget.transactionDropDownText} type'),
+                      Text('Select $transactionDropDownText type'),
                       DropdownButton(
-                        value: widget.expenseDropDownText,
+                        value: expenseDropDownText,
                         icon: Icon(Icons.keyboard_arrow_down),
                         items: expenseType.map((String expenseType) {
                           return DropdownMenuItem(
@@ -152,7 +165,7 @@ class _AddExpenseState extends State<AddExpense> {
                         }).toList(),
                         onChanged: (newValue) {
                           setState(() {
-                            widget.expenseDropDownText = newValue!;
+                            expenseDropDownText = newValue!;
                           });
                         },
                       ),
@@ -213,10 +226,10 @@ class _AddExpenseState extends State<AddExpense> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      String type = widget.transactionDropDownText;
-                      String category = widget.expenseDropDownText;
-                      int amount = int.parse(amountCon.text.toString());
+                    onPressed: () async {
+                      String type = transactionDropDownText;
+                      String category = expenseDropDownText;
+                      double amount = double.parse(amountCon.text.toString());
                       String date = dateCon.text;
 
                       DateTime parsedDate = DateFormat("dd-MMM-yy").parse(date);
@@ -229,14 +242,30 @@ class _AddExpenseState extends State<AddExpense> {
                         0,
                         0, // Millisecond
                       );
-                      widget.firestoreService.addRecord(
-                        type,
-                        category,
-                        amount,
-                        date,
-                        finalDateTime,
-                      );
+                      final expenseProvider = context.read<ExpenseProvider>();
 
+                      if (widget.title == 'Edit' && widget.expenseId != null) {
+                        await expenseProvider.updateExpense(
+                          id: int.parse(widget.expenseId!),
+                          transactionType: type,
+                          category: category,
+                          amount: amount,
+                          date: date,
+                          dateTime: finalDateTime,
+                        );
+                      } else {
+                        await expenseProvider.addExpense(
+                          transactionType: type,
+                          category: category,
+                          amount: amount,
+                          date: date,
+                          dateTime: finalDateTime,
+                        );
+                      }
+
+                      if (!context.mounted) {
+                        return;
+                      }
                       Navigator.pop(context);
                     },
                     child: Text(

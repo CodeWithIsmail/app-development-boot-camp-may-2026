@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/screens/home_screen.dart';
-import 'package:mexpense/services/auth_service.dart';
-import 'package:mexpense/services/local_expense_service.dart';
+import 'package:mexpense/providers/providers.dart';
 import 'package:mexpense/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   final void Function()? togglefunction;
@@ -54,19 +53,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       final username = uname.text.toLowerCase();
       final double initBal = double.parse(initialBal.text);
-      await AuthService().signUp(
+      await context.read<UserProvider>().signUp(
         name: name.text,
         username: username,
         password: pass.text,
         initialBalance: initBal,
-      );
-
-      final localExpenseService = LocalExpenseService(username);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(localExpenseService),
-        ),
       );
     } on Exception {
       AppToast('Username already exists. Try another username.').showToast();
