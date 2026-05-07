@@ -1,46 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/components/money_dashboard.dart';
 import 'package:mexpense/helper/helpers.dart';
+import 'package:mexpense/models/expense.dart';
+import 'package:mexpense/providers/providers.dart';
 import 'package:mexpense/screens/screens.dart';
-import 'package:mexpense/services/services.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-
-  const MainScreen(this.firestoreService, {super.key});
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainscreenState();
 }
 
 class _MainscreenState extends State<MainScreen> {
-  void editOrDelete(LocalDocument document) {
+  void editOrDelete(Expense expense) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: Text('Choose an option'),
           actions: <Widget>[
             TextButton(
               child: Text('Edit'),
               onPressed: () {
-                Map<String, dynamic> data = document.data();
-                String transactionType = data['Transaction_type'];
-                String category = data['Category'];
-                String date = data['date'];
-                String amount = "${data['Amount']} TK";
-                widget.firestoreService.deleteRecord(document.id);
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddExpense(
                       'Edit',
-                      transactionType,
-                      category,
-                      amount,
-                      date,
-                      widget.firestoreService,
+                      expense.title,
+                      expense.category,
+                      expense.amount.toString(),
+                      expense.date,
+                      expenseId: expense.id?.toString(),
                     ),
                   ),
                 );
@@ -48,9 +42,14 @@ class _MainscreenState extends State<MainScreen> {
             ),
             TextButton(
               child: Text('Delete'),
-              onPressed: () {
-                widget.firestoreService.deleteRecord(document.id);
-                Navigator.of(context).pop();
+              onPressed: () async {
+                await dialogContext.read<ExpenseProvider>().deleteExpense(
+                  expense.id!,
+                );
+                if (!dialogContext.mounted) {
+                  return;
+                }
+                Navigator.of(dialogContext).pop();
               },
             ),
           ],
@@ -84,7 +83,7 @@ class _MainscreenState extends State<MainScreen> {
                         children: [
                           Text('MoneyMate', style: welcomeTextStyle),
                           Text(
-                            widget.firestoreService.collectionName,
+                            context.watch<UserProvider>().displayName ?? '',
                             style: nameTextStyle,
                           ),
                         ],
@@ -95,13 +94,7 @@ class _MainscreenState extends State<MainScreen> {
                     children: [
                       IconButton(
                         onPressed: () async {
-                          await AuthService().signOut();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginOrRegistration(),
-                            ),
-                          );
+                          await context.read<UserProvider>().signOut();
                         },
                         icon: Icon(Icons.logout_outlined, size: 23),
                       ),
@@ -121,7 +114,7 @@ class _MainscreenState extends State<MainScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(17.0),
-                child: MoneyDashboard(widget.firestoreService),
+                child: const MoneyDashboard(),
               ),
             ),
             SizedBox(height: 20),
@@ -131,38 +124,31 @@ class _MainscreenState extends State<MainScreen> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: StreamBuilder<LocalQuerySnapshot>(
-                stream: widget.firestoreService.getRecords(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('An error occurred!'));
-                  }
+              child: Consumer<ExpenseProvider>(
+                builder: (context, expenseProvider, child) {
+                  final expenses = expenseProvider.expenses;
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  if (expenseProvider.isLoading && expenses.isEmpty) {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (!snapshot.hasData) {
+                  if (expenses.isEmpty) {
                     return Center(child: Text('No records found.'));
                   }
 
-                  List transactionList = snapshot.data!.docs;
                   return ListView.builder(
-                    itemCount: transactionList.length,
+                    itemCount: expenses.length,
                     itemBuilder: (context, int index) {
-                      LocalDocument document = transactionList[index];
-
-                      Map<String, dynamic> data = document.data();
-
-                      String transactionType = data['Transaction_type'];
-                      String category = data['Category'];
-                      String amount = "${data['Amount']} TK";
-                      String date = data['date'];
+                      final expense = expenses[index];
+                      final transactionType = expense.title;
+                      final category = expense.category;
+                      final amount = '${expense.amount} TK';
+                      final date = expense.date;
 
                       return GestureDetector(
                         onDoubleTap: () {
                           if (category != 'Initial Balance') {
-                            editOrDelete(document);
+                            editOrDelete(expense);
                           }
                         },
                         child: Padding(
@@ -197,7 +183,6 @@ class _MainscreenState extends State<MainScreen> {
                                         alignment: Alignment.center,
 
                                         child: iconMap[category],
-                                        
                                       ),
                                       SizedBox(width: 10),
                                       Text(

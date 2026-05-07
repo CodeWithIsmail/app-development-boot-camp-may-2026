@@ -20,7 +20,14 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'money_mate.db');
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(
+      path,
+      version: 1,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
+      onCreate: _onCreate,
+    );
   }
 
   Future _onCreate(Database db, int version) async {
@@ -79,6 +86,21 @@ class DatabaseHelper {
       where: 'id = ?',
       whereArgs: [userId],
     );
+  }
+
+  Future<int> updateUser(int id, Map<String, dynamic> values) async {
+    final db = await database;
+    return await db.update('users', values, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteUser(int id) async {
+    final db = await database;
+    return await db.delete('users', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Map<String, dynamic>>> getUsers() async {
+    final db = await database;
+    return await db.query('users', orderBy: 'id ASC');
   }
 
   Future<int> insertExpense(Map<String, dynamic> expense) async {

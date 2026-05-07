@@ -3,12 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:mexpense/components/category_chart.dart';
 import 'package:mexpense/components/datewise_chart.dart';
 import 'package:mexpense/helper/helpers.dart';
-import 'package:mexpense/services/services.dart';
 
 class VisualizationScreen extends StatefulWidget {
-  final LocalExpenseService firestoreService;
-
-  const VisualizationScreen(this.firestoreService, {super.key});
+  const VisualizationScreen({super.key});
 
   @override
   State<VisualizationScreen> createState() => _VisualizationScreenState();
@@ -85,7 +82,7 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                     horizontal: 5,
                     vertical: 20,
                   ),
-                  child: DatewiseChart(widget.firestoreService, endDate),
+                  child: DatewiseChart(endDate),
                 ),
               ),
               SizedBox(height: 50),
@@ -103,7 +100,7 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                     horizontal: 5,
                     vertical: 20,
                   ),
-                  child: CategorywiseChart(widget.firestoreService),
+                  child: const CategorywiseChart(),
                 ),
               ),
             ],
