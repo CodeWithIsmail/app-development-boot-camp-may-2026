@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../constants/constants.dart';
+import 'package:mexpense/core/constants/constants.dart';
 
 class BalanceShowGroup extends StatelessWidget {
   final IconData iconName;

@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
+import 'package:mexpense/core/database/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../database/database_helper.dart';
 
 class AuthService {
   final DatabaseHelper _db = DatabaseHelper();

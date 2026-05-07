@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-
-import '../constants/constants.dart';
+import 'package:mexpense/core/constants/constants.dart';
 
 class AppFloatingButton extends StatelessWidget {
   const AppFloatingButton({super.key});
