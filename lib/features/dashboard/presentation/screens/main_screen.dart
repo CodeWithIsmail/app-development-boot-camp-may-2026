@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/core/utils/helpers.dart';
 import 'package:mexpense/core/models/expense.dart';
+import 'package:mexpense/core/utils/helpers.dart';
 import 'package:mexpense/features/auth/presentation/providers/user_provider.dart';
 import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
 import 'package:mexpense/features/dashboard/presentation/screens/add_expense_screen.dart';
@@ -33,7 +33,7 @@ class _MainscreenState extends State<MainScreen> {
                       'Edit',
                       expense.title,
                       expense.category,
-                      expense.amount.toString(),
+                      '${expense.amount} TK',
                       expense.date,
                       expenseId: expense.id?.toString(),
                     ),
