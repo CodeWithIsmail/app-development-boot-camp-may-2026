@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/helper/auth_identify.dart';
-import 'package:mexpense/helper/constants.dart';
-import 'package:mexpense/providers/providers.dart';
+import 'package:mexpense/core/constants/constants.dart';
+import 'package:mexpense/features/auth/presentation/providers/providers.dart'
+    as auth;
+import 'package:mexpense/features/auth/presentation/widgets/auth_wrapper.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/providers.dart'
+    as dashboard;
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,11 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProxyProvider<UserProvider, ExpenseProvider>(
-          create: (_) => ExpenseProvider(),
+        ChangeNotifierProvider(create: (_) => auth.UserProvider()),
+        ChangeNotifierProxyProvider<
+          auth.UserProvider,
+          dashboard.ExpenseProvider
+        >(
+          create: (_) => dashboard.ExpenseProvider(),
           update: (_, userProvider, expenseProvider) {
-            final provider = expenseProvider ?? ExpenseProvider();
+            final provider = expenseProvider ?? dashboard.ExpenseProvider();
             provider.syncUser(userProvider.currentUser?.id);
             return provider;
           },
