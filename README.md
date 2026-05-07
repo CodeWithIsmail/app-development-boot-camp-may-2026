@@ -1,16 +1,37 @@
+<p align="center">
+	<img src="https://img.shields.io/github/last-commit/CodeWithIsmail/app-development-boot-camp-may-2026?style=flat-square&color=blue" />
+	<img src="https://img.shields.io/github/issues/CodeWithIsmail/app-development-boot-camp-may-2026?style=flat-square&color=red" />
+
+<img src="https://img.shields.io/github/issues-closed/CodeWithIsmail/app-development-boot-camp-may-2026?style=flat-square&color=green" />
+<img src="https://img.shields.io/github/issues-pr/CodeWithIsmail/app-development-boot-camp-may-2026?style=flat-square&color=orange&label=Open%20PRs" />
+
+<img src="https://img.shields.io/github/issues-pr-closed/CodeWithIsmail/app-development-boot-camp-may-2026?style=flat-square&color=blueviolet&label=Merged%20PRs" />
+</p>
+<p align="center">
+	<a href="https://github.com/users/CodeWithIsmail/projects/5"><img src="https://img.shields.io/badge/Project_Board-Kanban-blue?style=for-the-badge&logo=github" /></a>
+</p>
+
 # MExpense
 
-MExpense is an offline-first expense tracking application built with Flutter and Dart.
-It is structured around feature-first modularity,pro Separation of Concerns, and predictable state flow.
-The project is engineered for maintainability, scalability, and production-quality code organization.
+A robust, offline-first personal finance tracker built with Flutter. MExpense is an offline-first expense tracking application built with Flutter and Dart. It is structured around feature-first modularity, Separation of Concerns, and predictable state flow. The project is engineered for maintainability, scalability, and production-quality code organization.
+
+<p align="center">
+	<img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" />
+	<img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white" />
+	<img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white" />
+<img src="https://img.shields.io/badge/Provider-blueviolet?style=for-the-badge&logo=flutter&logoColor=white" /></p>
 
 ---
 
 ## Overview
 
-MExpense manages personal finance workflows including authentication, transaction tracking, dashboard summaries, and statistical visualization.
-The technical focus is on disciplined architecture: clear layering, reusable UI building blocks, and stable local persistence.
-This architecture matters because it reduces coupling between presentation, state orchestration, and data access, which improves long-term delivery speed and maintainability.
+MExpense manages personal finance workflows including authentication, transaction tracking, dashboard summaries, and statistical visualization. The technical focus is on disciplined architecture: clear layering, reusable UI building blocks, and stable local persistence. This architecture matters because it reduces coupling between presentation, state orchestration, and data access, which improves long-term delivery speed and maintainability.
+
+<p align="center">
+	<img src="https://img.shields.io/badge/Architecture-Feature--First-green?style=for-the-badge" />
+	<img src="https://img.shields.io/badge/Code_Style-Clean_Architecture-orange?style=for-the-badge" />
+	<img src="https://img.shields.io/badge/Offline--First-Enabled-success?style=for-the-badge&logo=icloud" />
+</p>
 
 ---
 
