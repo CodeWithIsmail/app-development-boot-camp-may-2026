@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../constants/constants.dart';
+import 'package:mexpense/core/constants/constants.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key});

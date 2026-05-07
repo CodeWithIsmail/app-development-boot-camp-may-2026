@@ -1,2 +1,2 @@
-export '../constants/constants.dart';
-export '../constants/data.dart';
+export 'package:mexpense/core/constants/constants.dart';
+export 'package:mexpense/core/constants/data.dart';
