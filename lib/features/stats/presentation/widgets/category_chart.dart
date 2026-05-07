@@ -5,14 +5,14 @@ import 'package:mexpense/features/dashboard/presentation/providers/providers.dar
 import 'package:provider/provider.dart';
 
 final Map<String, String> categoryIconMap = {
-  'Food': 'assets/food.png',
-  'Shopping': 'assets/shopping.png',
-  'Education': 'assets/education.png',
-  'Transport': 'assets/transport.png',
-  'Health': 'assets/health.png',
-  'Entertainment': 'assets/entertainment.png',
-  'Home': 'assets/home.png',
-  'Others': 'assets/other.png',
+  'Food': 'assets/images/food.png',
+  'Shopping': 'assets/images/shopping.png',
+  'Education': 'assets/images/education.png',
+  'Transport': 'assets/images/transport.png',
+  'Health': 'assets/images/health.png',
+  'Entertainment': 'assets/images/entertainment.png',
+  'Home': 'assets/images/home.png',
+  'Others': 'assets/images/other.png',
 };
 
 class CategorywiseChart extends StatelessWidget {

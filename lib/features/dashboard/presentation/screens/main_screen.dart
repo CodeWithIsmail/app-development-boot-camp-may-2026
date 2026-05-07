@@ -76,13 +76,13 @@ class _MainscreenState extends State<MainScreen> {
                       CircleAvatar(
                         radius: 20,
                         backgroundColor: Colors.grey.shade100,
-                        child: Image.asset('images/moneymate.png'),
+                        child: Image.asset('assets/images/logo.png'),
                       ),
                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('MoneyMate', style: welcomeTextStyle),
+                          Text('MExpense', style: welcomeTextStyle),
                           Consumer<UserProvider>(
                             builder: (context, userProvider, child) {
                               return Text(
