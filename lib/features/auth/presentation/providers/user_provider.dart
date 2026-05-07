@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mexpense/core/database/database_helper.dart';
 import 'package:mexpense/core/models/app_user.dart';
-import 'package:mexpense/core/providers/current_user_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProvider extends ChangeNotifier implements CurrentUserSource {
+class UserProvider extends ChangeNotifier {
   static const String _prefsKey = 'mexpense_user_id';
 
   final DatabaseHelper _db = DatabaseHelper();
@@ -18,8 +17,6 @@ class UserProvider extends ChangeNotifier implements CurrentUserSource {
 
   AppUser? get currentUser => _currentUser;
   bool get isBootstrapped => _isBootstrapped;
-  @override
-  int? get currentUserId => _currentUser?.id;
   String? get displayName => _currentUser?.username;
 
   Future<String> _hashPassword(String password) async {

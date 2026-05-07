@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/core/constants/constants.dart';
-import 'package:mexpense/core/providers/current_user_source.dart';
 import 'package:mexpense/features/auth/presentation/providers/providers.dart'
     as auth;
 import 'package:mexpense/features/auth/presentation/widgets/auth_wrapper.dart';
@@ -21,13 +20,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => auth.UserProvider()),
         ChangeNotifierProxyProvider<
-          CurrentUserSource,
+          auth.UserProvider,
           dashboard.ExpenseProvider
         >(
           create: (_) => dashboard.ExpenseProvider(),
           update: (_, userProvider, expenseProvider) {
             final provider = expenseProvider ?? dashboard.ExpenseProvider();
-            provider.syncUser(userProvider.currentUserId);
+            provider.syncUser(userProvider.currentUser?.id);
             return provider;
           },
         ),
