@@ -176,13 +176,18 @@ class _AddExpenseState extends State<AddExpense> {
                 TextFormField(
                   keyboardType: TextInputType.number,
                   controller: amountCon,
+                  textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 18),
                     hintText: 'Amount',
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: FaIcon(
-                      FontAwesomeIcons.bangladeshiTakaSign,
-                      size: 20,
+                    prefixIcon: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FaIcon(FontAwesomeIcons.bangladeshiTakaSign, size: 20),
+                      ],
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -208,10 +213,15 @@ class _AddExpenseState extends State<AddExpense> {
                     }
                   },
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 18),
                     hintText: 'Date',
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: FaIcon(FontAwesomeIcons.clock, size: 20),
+                    prefixIcon: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [FaIcon(FontAwesomeIcons.clock, size: 20)],
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
