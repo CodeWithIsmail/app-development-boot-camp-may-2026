@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MExpense',
         theme: ThemeData(colorScheme: colorList),
-        home: SafeArea(child: const AuthWrapper()),
+        home: const AuthWrapper(),
       ),
     );
   }
