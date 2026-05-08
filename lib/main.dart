@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/core/constants/constants.dart';
-import 'package:mexpense/features/auth/presentation/providers/providers.dart'
+import 'package:mexpense/features/auth/presentation/providers/user_provider.dart'
     as auth;
 import 'package:mexpense/features/auth/presentation/widgets/auth_wrapper.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart'
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart'
     as dashboard;
 import 'package:provider/provider.dart';
 

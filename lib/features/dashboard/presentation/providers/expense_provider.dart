@@ -4,16 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mexpense/core/constants/data.dart';
 import 'package:mexpense/core/database/database_helper.dart';
-import 'package:mexpense/core/models/expense.dart';
+import 'package:mexpense/core/models/transaction.dart';
 
 class ExpenseProvider extends ChangeNotifier {
   final DatabaseHelper _db = DatabaseHelper();
-  final List<Expense> _expenses = [];
+  final List<Transaction> _expenses = [];
 
   int? _currentUserId;
   bool _isLoading = false;
 
-  List<Expense> get expenses => List.unmodifiable(_expenses);
+  List<Transaction> get expenses => List.unmodifiable(_expenses);
   bool get isLoading => _isLoading;
   int? get currentUserId => _currentUserId;
 
@@ -58,14 +58,14 @@ class ExpenseProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final rows = await _db.getExpensesForUser(userId);
+    final rows = await _db.getTransactionsForUser(userId);
     if (_currentUserId != userId) {
       return;
     }
 
     _expenses
       ..clear()
-      ..addAll(rows.map(Expense.fromMap));
+      ..addAll(rows.map(Transaction.fromMap));
     _isLoading = false;
     notifyListeners();
   }
@@ -84,8 +84,8 @@ class ExpenseProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await _db.insertExpense(
-      Expense(
+    await _db.insertTransaction(
+      Transaction(
         userId: _currentUserId!,
         title: transactionType,
         amount: amount,
@@ -108,7 +108,7 @@ class ExpenseProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await _db.updateExpense(id, {
+    await _db.updateTransaction(id, {
       'title': transactionType,
       'amount': amount,
       'category': category,
@@ -122,7 +122,7 @@ class ExpenseProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await _db.deleteExpense(id);
+    await _db.deleteTransaction(id);
     await loadExpenses();
   }
 

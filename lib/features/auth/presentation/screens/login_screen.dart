@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mexpense/core/constants/constants.dart';
 import 'package:mexpense/core/widgets/widgets.dart';
-import 'package:mexpense/features/auth/presentation/providers/providers.dart';
+import 'package:mexpense/features/auth/presentation/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

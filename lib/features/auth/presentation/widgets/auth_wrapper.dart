@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/features/auth/presentation/providers/providers.dart';
+import 'package:mexpense/features/auth/presentation/providers/user_provider.dart';
 import 'package:mexpense/features/auth/presentation/widgets/log_or_regi.dart';
 import 'package:mexpense/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-class Expense {
+class Transaction {
   final int? id;
   final int userId;
   final String title;
@@ -7,7 +7,7 @@ class Expense {
   final String date;
   final DateTime dateTime;
 
-  const Expense({
+  const Transaction({
     this.id,
     required this.userId,
     required this.title,
@@ -17,8 +17,8 @@ class Expense {
     required this.dateTime,
   });
 
-  factory Expense.fromMap(Map<String, dynamic> map) {
-    return Expense(
+  factory Transaction.fromMap(Map<String, dynamic> map) {
+    return Transaction(
       id: map['id'] as int?,
       userId: map['user_id'] as int,
       title: map['title'] as String? ?? '',

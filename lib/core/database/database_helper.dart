@@ -18,7 +18,7 @@ class DatabaseHelper {
 
   Future<Database> _initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'money_mate.db');
+    String path = join(databasesPath, 'mexpense.db');
 
     return await openDatabase(
       path,
@@ -34,15 +34,13 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
         username TEXT UNIQUE,
-        password_hash TEXT,
-        current_balance REAL
+        password_hash TEXT
       )
     ''');
 
     await db.execute('''
-      CREATE TABLE expenses (
+      CREATE TABLE transactions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         title TEXT,
@@ -78,55 +76,30 @@ class DatabaseHelper {
     return null;
   }
 
-  Future<int> updateUserBalance(int userId, double balance) async {
+  Future<int> insertTransaction(Map<String, dynamic> transaction) async {
+    final db = await database;
+    return await db.insert('transactions', transaction);
+  }
+
+  Future<int> updateTransaction(int id, Map<String, dynamic> values) async {
     final db = await database;
     return await db.update(
-      'users',
-      {'current_balance': balance},
-      where: 'id = ?',
-      whereArgs: [userId],
-    );
-  }
-
-  Future<int> updateUser(int id, Map<String, dynamic> values) async {
-    final db = await database;
-    return await db.update('users', values, where: 'id = ?', whereArgs: [id]);
-  }
-
-  Future<int> deleteUser(int id) async {
-    final db = await database;
-    return await db.delete('users', where: 'id = ?', whereArgs: [id]);
-  }
-
-  Future<List<Map<String, dynamic>>> getUsers() async {
-    final db = await database;
-    return await db.query('users', orderBy: 'id ASC');
-  }
-
-  Future<int> insertExpense(Map<String, dynamic> expense) async {
-    final db = await database;
-    return await db.insert('expenses', expense);
-  }
-
-  Future<int> updateExpense(int id, Map<String, dynamic> values) async {
-    final db = await database;
-    return await db.update(
-      'expenses',
+      'transactions',
       values,
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
-  Future<int> deleteExpense(int id) async {
+  Future<int> deleteTransaction(int id) async {
     final db = await database;
-    return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<List<Map<String, dynamic>>> getExpensesForUser(int userId) async {
+  Future<List<Map<String, dynamic>>> getTransactionsForUser(int userId) async {
     final db = await database;
     final res = await db.query(
-      'expenses',
+      'transactions',
       where: 'user_id = ?',
       whereArgs: [userId],
       orderBy: 'dateTime DESC',

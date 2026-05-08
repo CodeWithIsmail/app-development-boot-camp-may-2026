@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mexpense/core/models/expense.dart';
-import 'package:mexpense/core/utils/helpers.dart';
+import 'package:mexpense/core/constants/constants.dart';
+import 'package:mexpense/core/constants/data.dart';
+import 'package:mexpense/core/models/transaction.dart';
 import 'package:mexpense/features/auth/presentation/providers/user_provider.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:mexpense/features/dashboard/presentation/screens/add_expense_screen.dart';
 import 'package:mexpense/features/dashboard/presentation/widgets/money_dashboard.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<MainScreen> {
-  void editOrDelete(Expense expense) {
+  void editOrDelete(Transaction expense) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -187,7 +188,12 @@ class _MainscreenState extends State<MainScreen> {
                                         height: 45,
                                         alignment: Alignment.center,
 
-                                        child: iconMap[category],
+                                        child: Image.asset(
+                                          iconMap[category]!,
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                       SizedBox(width: 10),
                                       Text(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:mexpense/core/utils/helpers.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
+import 'package:mexpense/core/constants/constants.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddExpense extends StatefulWidget {

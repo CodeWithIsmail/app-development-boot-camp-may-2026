@@ -1,19 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mexpense/core/utils/helpers.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
+import 'package:mexpense/core/constants/data.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
-
-final Map<String, String> categoryIconMap = {
-  'Food': 'assets/images/food.png',
-  'Shopping': 'assets/images/shopping.png',
-  'Education': 'assets/images/education.png',
-  'Transport': 'assets/images/transport.png',
-  'Health': 'assets/images/health.png',
-  'Entertainment': 'assets/images/entertainment.png',
-  'Home': 'assets/images/home.png',
-  'Others': 'assets/images/other.png',
-};
 
 class CategorywiseChart extends StatelessWidget {
   const CategorywiseChart({super.key});
@@ -43,7 +32,7 @@ class CategorywiseChart extends StatelessWidget {
 
       sections.add(
         PieChartSectionData(
-          color: colorMap[categoryName]?.colors.first ?? Colors.grey,
+          color: colorMap[categoryName],
           value: amount,
           title: '$percentage%',
           radius: radius,
@@ -53,10 +42,7 @@ class CategorywiseChart extends StatelessWidget {
             color: Colors.white,
             shadows: shadows,
           ),
-          badgeWidget: _Badge(
-            categoryIconMap[categoryName] ?? 'assets/other.png',
-            size: 40.0,
-          ),
+          badgeWidget: _Badge(iconMap[categoryName]!, size: 40.0),
           badgePositionPercentageOffset: 0.98,
         ),
       );

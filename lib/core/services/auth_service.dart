@@ -20,7 +20,6 @@ class AuthService {
   }
 
   Future<int> signUp({
-    required String name,
     required String username,
     required String password,
     required double initialBalance,
@@ -32,17 +31,15 @@ class AuthService {
 
     final pwHash = await _hashPassword(password);
     final userId = await _db.insertUser({
-      'name': name,
       'username': username,
       'password_hash': pwHash,
-      'current_balance': initialBalance,
     });
 
     DateFormat dateFormat = DateFormat('dd-MMM-yy');
     final now = DateTime.now();
-    await _db.insertExpense({
+    await _db.insertTransaction({
       'user_id': userId,
-      'title': 'Initial Balance',
+      'title': 'Income',
       'amount': initialBalance,
       'category': 'Initial Balance',
       'date': dateFormat.format(now),
