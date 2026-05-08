@@ -133,7 +133,7 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
                 ),
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
