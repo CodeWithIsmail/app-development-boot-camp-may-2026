@@ -23,6 +23,36 @@ A robust, offline-first personal finance tracker built with Flutter. MExpense is
 
 ---
 
+## Demo Video
+
+<p align="center">
+  <a href="https://youtube.com/shorts/_9q59Zxy3Wk?feature=share">
+    <img src="https://img.youtube.com/vi/_9q59Zxy3Wk/maxresdefault.jpg" width="800"/>
+  </a>
+</p>
+
+<p align="center">
+  🎥 Click the image above to watch the demo video
+</p>
+
+---
+
+## UI Screenshots
+
+<p align="center">
+  <img src="assets/ui/1-signup.jpg" width="220"/>
+  <img src="assets/ui/2-login.jpg" width="220"/>
+  <img src="assets/ui/3-homepage.jpg" width="220"/>
+</p>
+
+<p align="center">
+  <img src="assets/ui/4-add%20transaction.jpg" width="220"/>
+  <img src="assets/ui/5-date-expense%20bar%20chart.jpg" width="220"/>
+  <img src="assets/ui/6-category-expense%20pie%20chart.jpg" width="220"/>
+</p>
+
+---
+
 ## Overview
 
 MExpense manages personal finance workflows including authentication, transaction tracking, dashboard summaries, and statistical visualization. The technical focus is on disciplined architecture: clear layering, reusable UI building blocks, and stable local persistence. This architecture matters because it reduces coupling between presentation, state orchestration, and data access, which improves long-term delivery speed and maintainability.
