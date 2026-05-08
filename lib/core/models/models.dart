@@ -1,2 +1,2 @@
 export 'app_user.dart';
-export 'expense.dart';
+export 'transaction.dart';

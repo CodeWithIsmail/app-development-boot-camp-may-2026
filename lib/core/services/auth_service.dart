@@ -40,11 +40,11 @@ class AuthService {
 
     DateFormat dateFormat = DateFormat('dd-MMM-yy');
     final now = DateTime.now();
-    await _db.insertExpense({
+    await _db.insertTransaction({
       'user_id': userId,
       'title': 'Initial Balance',
       'amount': initialBalance,
-      'category': 'Initial Balance',
+      'category': 'Income',
       'date': dateFormat.format(now),
       'dateTime': now.millisecondsSinceEpoch,
     });

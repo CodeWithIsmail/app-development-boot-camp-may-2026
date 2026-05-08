@@ -58,6 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         username: username,
         password: pass.text,
         initialBalance: initBal,
+        
       );
     } on Exception {
       AppToast('Username already exists. Try another username.').showToast();

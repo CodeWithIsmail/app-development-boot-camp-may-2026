@@ -70,7 +70,7 @@ class UserProvider extends ChangeNotifier {
     });
 
     final now = DateTime.now();
-    await _db.insertExpense({
+    await _db.insertTransaction({
       'user_id': userId,
       'title': 'Initial Balance',
       'amount': initialBalance,
