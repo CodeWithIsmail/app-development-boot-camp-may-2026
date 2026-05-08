@@ -80,13 +80,60 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
     );
   }
 
+  DateTime? catStartDate;
+  DateTime? catEndDate;
   Widget _buildCategoryExpenseTab(BuildContext context) {
+    final label = (catStartDate != null && catEndDate != null)
+        ? '${dateFormat.format(catStartDate!)} - ${dateFormat.format(catEndDate!)}'
+        : 'All Time';
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Row(
+            children: [
+              IconButton(
+                tooltip: 'Filter by date range',
+                onPressed: () async {
+                  final picked = await showDateRangePicker(
+                    initialEntryMode: DatePickerEntryMode.input,
+                    context: context,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                    initialDateRange:
+                        (catStartDate != null && catEndDate != null)
+                        ? DateTimeRange(start: catStartDate!, end: catEndDate!)
+                        : null,
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      catStartDate = picked.start;
+                      catEndDate = picked.end;
+                    });
+                  }
+                },
+                icon: Icon(Icons.filter_list),
+              ),
+              SizedBox(width: 8),
+              Text(label),
+              Spacer(),
+              if (catStartDate != null && catEndDate != null)
+                IconButton(
+                  tooltip: 'Clear range',
+                  onPressed: () {
+                    setState(() {
+                      catStartDate = null;
+                      catEndDate = null;
+                    });
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+            ],
+          ),
+          SizedBox(height: 20),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -94,7 +141,10 @@ class _VisualizationScreenState extends State<VisualizationScreen> {
             ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width,
-            child: const CategorywiseChart(),
+            child: CategorywiseChart(
+              startDate: catStartDate,
+              endDate: catEndDate,
+            ),
           ),
         ],
       ),
