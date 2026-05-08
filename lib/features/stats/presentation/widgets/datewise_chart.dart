@@ -37,6 +37,20 @@ class DatewiseChart extends StatelessWidget {
     });
 
     return BarChartData(
+      barTouchData: BarTouchData(
+        enabled: true,
+        touchTooltipData: BarTouchTooltipData(
+          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            final value = rod.toY;
+            final text =
+                '${value % 1 == 0 ? value.toInt() : value.toStringAsFixed(2)} Tk';
+            return BarTooltipItem(
+              text,
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            );
+          },
+        ),
+      ),
       titlesData: FlTitlesData(
         show: true,
         leftTitles: AxisTitles(
