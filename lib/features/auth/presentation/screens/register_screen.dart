@@ -14,7 +14,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController name = TextEditingController();
   TextEditingController uname = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController conpass = TextEditingController();
@@ -27,8 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void regi() async {
     try {
-      if (name.text.isEmpty ||
-          uname.text.isEmpty ||
+      if (uname.text.isEmpty ||
           pass.text.isEmpty ||
           conpass.text.isEmpty ||
           initialBal.text.isEmpty) {
@@ -54,11 +52,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final username = uname.text.toLowerCase();
       final double initBal = double.parse(initialBal.text);
       await context.read<UserProvider>().signUp(
-        name: name.text,
         username: username,
         password: pass.text,
         initialBalance: initBal,
-        
       );
     } on Exception {
       AppToast('Username already exists. Try another username.').showToast();
@@ -81,8 +77,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
                     children: [
-                      CustomTextField('Name', name, false, 1),
-                      SizedBox(height: 20),
                       CustomTextField('Username', uname, false, 1),
                       SizedBox(height: 20),
                       CustomTextField('Password', pass, true, 1),

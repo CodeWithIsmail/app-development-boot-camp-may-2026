@@ -34,10 +34,8 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
         username TEXT UNIQUE,
-        password_hash TEXT,
-        current_balance REAL
+        password_hash TEXT
       )
     ''');
 

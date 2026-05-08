@@ -51,7 +51,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<User> signUp({
-    required String name,
     required String username,
     required String password,
     required double initialBalance,
@@ -63,10 +62,8 @@ class UserProvider extends ChangeNotifier {
 
     final passwordHash = await _hashPassword(password);
     final userId = await _db.insertUser({
-      'name': name,
       'username': username,
       'password_hash': passwordHash,
-      'current_balance': initialBalance,
     });
 
     final now = DateTime.now();
