@@ -13,13 +13,45 @@
 
 # MExpense
 
-A robust, offline-first personal finance tracker built with Flutter. MExpense is an offline-first expense tracking application built with Flutter and Dart. It is structured around feature-first modularity, Separation of Concerns, and predictable state flow. The project is engineered for maintainability, scalability, and production-quality code organization.
+A robust, offline-first personal finance tracker built with Flutter. 
+
+MExpense is an offline-first expense tracking application built with Flutter and Dart. It is structured around feature-first modularity, Separation of Concerns, and predictable state flow. The project is engineered for maintainability, scalability, and production-quality code organization.
 
 <p align="center">
 	<img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" />
 	<img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white" />
 	<img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white" />
 <img src="https://img.shields.io/badge/Provider-blueviolet?style=for-the-badge&logo=flutter&logoColor=white" /></p>
+
+---
+
+## Demo Video
+
+<p align="center">
+  <a href="https://youtube.com/shorts/_9q59Zxy3Wk?feature=share">
+    <img src="https://img.youtube.com/vi/_9q59Zxy3Wk/maxresdefault.jpg" width="800"/>
+  </a>
+</p>
+
+<p align="center">
+  🎥 Click the image above to watch the demo video
+</p>
+
+---
+
+## UI Screenshots
+
+<p align="center">
+  <img src="assets/ui/1-signup.jpg" width="30%"/>
+  <img src="assets/ui/2-login.jpg" width="30%"/>
+  <img src="assets/ui/3-homepage.jpg" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="assets/ui/4-add%20transaction.jpg" width="30%"/>
+  <img src="assets/ui/5-date-expense%20bar%20chart.jpg" width="30%"/>
+  <img src="assets/ui/6-category-expense%20pie%20chart.jpg" width="30%"/>
+</p>
 
 ---
 
@@ -32,6 +64,30 @@ MExpense manages personal finance workflows including authentication, transactio
 	<img src="https://img.shields.io/badge/Code_Style-Clean_Architecture-orange?style=for-the-badge" />
 	<img src="https://img.shields.io/badge/Offline--First-Enabled-success?style=for-the-badge&logo=icloud" />
 </p>
+
+---
+
+## Features
+
+- Authentication with secure local credential hashing and session restoration
+- Transaction management for income/expense create, update, and delete flows
+- Dashboard analytics with aggregated balance, income, and expense totals
+- Statistics visualization with category and date-wise charting
+- Local-first persistence using SQLite and Shared Preferences
+- Responsive, modular UI composed from reusable shared components
+
+---
+
+## Tech Stack
+
+- Flutter
+- Dart
+- Provider
+- SQLite (`sqflite`)
+- Shared Preferences
+- fl_chart
+- intl
+- crypto
 
 ---
 
@@ -64,13 +120,10 @@ lib/
 │   ├── database/
 │   │   └── database_helper.dart              # SQLite schema, connection lifecycle, and CRUD query methods
 │   ├── models/
-│   │   ├── app_user.dart                     # User domain model and mapping
-│   │   ├── expense.dart                      # Expense domain model and mapping
-│   │   └── models.dart                       # Barrel export for model imports
+│   │   ├── user.dart                         # User domain model and mapping
+│   │   └── transaction.dart                  # Transaction domain model and mapping
 │   ├── services/
 │   │   └── auth_service.dart                 # Authentication-oriented service abstraction
-│   ├── utils/
-│   │   └── helpers.dart                      # Shared styling and utility helpers
 │   └── widgets/
 │       ├── app_floating_button.dart          # Reusable floating action button component
 │       ├── app_logo.dart                     # Reusable branding/logo widget
@@ -84,8 +137,7 @@ lib/
 │   ├── auth/
 │   │   └── presentation/
 │   │       ├── providers/
-│   │       │   ├── user_provider.dart        # Auth/session state and user lifecycle management
-│   │       │   └── providers.dart            # Barrel export for auth providers
+│   │       │   └── user_provider.dart        # Auth/session state and user lifecycle management
 │   │       ├── screens/
 │   │       │   ├── login_screen.dart         # Sign-in UI
 │   │       │   ├── register_screen.dart      # Registration UI
@@ -96,112 +148,102 @@ lib/
 │   ├── dashboard/
 │   │   └── presentation/
 │   │       ├── providers/
-│   │       │   ├── expense_provider.dart     # Transaction state, aggregation, and user-scoped sync
-│   │       │   └── providers.dart            # Barrel export for dashboard providers
+│   │       │   └── expense_provider.dart     # Transaction state, aggregation, and user-scoped sync
 │   │       ├── screens/
 │   │       │   ├── add_expense_screen.dart   # Add/edit transaction UI flow
 │   │       │   ├── home_screen.dart          # Primary dashboard screen
 │   │       │   ├── main_screen.dart          # Main navigation/screen shell
 │   │       │   └── screens.dart              # Barrel export for dashboard screens
 │   │       └── widgets/
-│   │           ├── money_dashboard.dart      # Dashboard summary and analytics widgets
-│   │           └── widgets.dart              # Barrel export for dashboard widgets
+│   │           └── money_dashboard.dart      # Dashboard summary and analytics widgets
 │   └── stats/
 │       └── presentation/
 │           ├── screens/
-│           │   ├── visualization_screen.dart # Analytics visualization screen
-│           │   └── screens.dart              # Barrel export for stats screens
+│           │   └── visualization_screen.dart # Analytics visualization screen
 │           └── widgets/
 │               ├── category_chart.dart       # Category-wise chart rendering
-│               ├── datewise_chart.dart       # Date-range chart rendering
-│               └── widgets.dart              # Barrel export for stats widgets
+│               └── datewise_chart.dart       # Date-range chart rendering
 ```
-
----
-
-## Key Engineering Highlights
-
-- Feature-first modular architecture with clear ownership boundaries
-- Reusable widget system to reduce duplication and preserve UI consistency
-- Theme-driven visual consistency via centralized constants and shared styles
-- Shared utility abstraction across features through `core/utils` and `core/widgets`
-- Clean Separation of Concerns across presentation, state, and persistence logic
-- Scalable reactive state management with Provider and feature-scoped ChangeNotifiers
-- SQLite persistence layer with explicit schema design and typed model mapping
-- Atomic widget composition for maintainable screen assembly
-- Clean folder organization with barrel exports for predictable imports
-- Production-oriented structure optimized for iterative feature growth
-
----
-
-## Features
-
-- Authentication with secure local credential hashing and session restoration
-- Transaction management for income/expense create, update, and delete flows
-- Dashboard analytics with aggregated balance, income, and expense totals
-- Statistics visualization with category and date-wise charting
-- Local-first persistence using SQLite and Shared Preferences
-- Responsive, modular UI composed from reusable shared components
-
----
-
-## Tech Stack
-
-- Flutter
-- Dart
-- Provider
-- SQLite (`sqflite`)
-- Shared Preferences
-- fl_chart
-- intl
-- crypto
-
----
-
-## UI & Design Principles
-
-- Reusable widgets in `core/widgets` provide consistent interaction patterns
-- Modular UI sections are organized under each feature's `presentation` layer
-- Theme consistency is enforced through shared constants and helper styles
-- Maintainable styling is centralized to reduce drift across screens
-- Pixel-consistent UI behavior is preserved through component reuse instead of per-screen reimplementation
 
 ---
 
 ## Getting Started
 
+### Prerequisites
+
+Ensure you have the following installed on your system:
+
+- **Flutter SDK**: [Download and install Flutter](https://flutter.dev/docs/get-started/install)
+- **Dart SDK**: Comes bundled with Flutter
+- **Git**: For cloning the repository
+
+### Complete Setup & Run Flow
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/CodeWithIsmail/app-development-boot-camp-may-2026.git
+cd app-development-boot-camp-may-2026
+```
+
+#### 2. Get Dependencies
+
 ```bash
 flutter pub get
+```
+
+This command downloads all required packages defined in `pubspec.yaml` (Flutter, Dart, SQLite, Provider, fl_chart, etc.).
+
+#### 3. Verify Setup
+
+Ensure your development environment is properly configured:
+
+```bash
+flutter doctor
+```
+
+This checks for any missing tools, SDKs, or configurations. Address any warnings or errors reported.
+
+#### 4. Run on Android Emulator or Connected Device
+
+**For Android:**
+
+```bash
+# List available emulators or connected devices
+flutter devices
+
+# Run the app
 flutter run
 ```
 
----
-
-## Build Commands
+Or run on a specific device:
 
 ```bash
-flutter build apk
-flutter build appbundle
-flutter build ios
+flutter run -d <device-id>
 ```
 
+#### 5. Build for Production
+
+**Build APK (Android):**
+
+```bash
+flutter build apk --release
+```
+
+Output: `build/app/outputs/flutter-apk/app-release.apk`
+
+### Troubleshooting
+
+**Issue: `flutter pub get` fails**
+
+- Run `flutter clean` and retry
+- Check internet connection
+- Update Flutter: `flutter upgrade`
+
+**Issue: Build fails**
+
+- Clear build cache: `flutter clean`
+- Invalidate Android/iOS build: `rm -rf build/`
+- Reinstall dependencies: `flutter pub get`
+
 ---
-
-## Engineering Focus
-
-This project is designed to demonstrate engineering discipline expected in production Flutter systems.
-
-- Clean architecture through strict responsibility boundaries between shared core modules and feature-specific presentation logic
-- Scalability through feature-first organization and provider-driven state orchestration
-- Maintainability through reusable UI primitives, barrel exports, and centralized utilities
-- Modular development workflows that isolate change impact and reduce regression surface
-- Reusability through shared components and typed domain models
-- Production-grade structure that prioritizes readability, consistency, and long-term extensibility
-
----
-
-## Future Improvements
-
-- Introduce dependency injection for tighter inversion of control and improved testability
-- Expand unit, widget, and integration test coverage for critical paths
-- Add optional remote synchronization APIs while preserving offline-first guarantees
