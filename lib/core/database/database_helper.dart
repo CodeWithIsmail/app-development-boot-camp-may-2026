@@ -78,16 +78,6 @@ class DatabaseHelper {
     return null;
   }
 
-  Future<int> updateUserBalance(int userId, double balance) async {
-    final db = await database;
-    return await db.update(
-      'users',
-      {'current_balance': balance},
-      where: 'id = ?',
-      whereArgs: [userId],
-    );
-  }
-
   Future<int> insertTransaction(Map<String, dynamic> transaction) async {
     final db = await database;
     return await db.insert('transactions', transaction);

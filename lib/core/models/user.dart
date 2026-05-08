@@ -1,11 +1,11 @@
-class AppUser {
+class User {
   final int? id;
   final String name;
   final String username;
   final String passwordHash;
   final double currentBalance;
 
-  const AppUser({
+  const User({
     this.id,
     required this.name,
     required this.username,
@@ -13,8 +13,8 @@ class AppUser {
     required this.currentBalance,
   });
 
-  factory AppUser.fromMap(Map<String, dynamic> map) {
-    return AppUser(
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
       id: map['id'] as int?,
       name: map['name'] as String? ?? '',
       username: map['username'] as String? ?? '',

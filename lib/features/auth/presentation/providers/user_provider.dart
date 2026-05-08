@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mexpense/core/database/database_helper.dart';
-import 'package:mexpense/core/models/app_user.dart';
+import 'package:mexpense/core/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -12,10 +12,10 @@ class UserProvider extends ChangeNotifier {
 
   final DatabaseHelper _db = DatabaseHelper();
 
-  AppUser? _currentUser;
+  User? _currentUser;
   bool _isBootstrapped = false;
 
-  AppUser? get currentUser => _currentUser;
+  User? get currentUser => _currentUser;
   bool get isBootstrapped => _isBootstrapped;
   String? get displayName => _currentUser?.username;
 
@@ -43,14 +43,14 @@ class UserProvider extends ChangeNotifier {
       await prefs.remove(_prefsKey);
       _currentUser = null;
     } else {
-      _currentUser = AppUser.fromMap(userMap);
+      _currentUser = User.fromMap(userMap);
     }
 
     _isBootstrapped = true;
     notifyListeners();
   }
 
-  Future<AppUser> signUp({
+  Future<User> signUp({
     required String name,
     required String username,
     required String password,
@@ -72,7 +72,7 @@ class UserProvider extends ChangeNotifier {
     final now = DateTime.now();
     await _db.insertTransaction({
       'user_id': userId,
-      'title': 'Initial Balance',
+      'title': 'Income',
       'amount': initialBalance,
       'category': 'Initial Balance',
       'date': DateFormat('dd-MMM-yy').format(now),
@@ -83,7 +83,7 @@ class UserProvider extends ChangeNotifier {
     return _currentUser!;
   }
 
-  Future<AppUser> signIn({
+  Future<User> signIn({
     required String username,
     required String password,
   }) async {
@@ -97,7 +97,7 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Invalid credentials');
     }
 
-    final user = AppUser.fromMap(userMap);
+    final user = User.fromMap(userMap);
     await _setCurrentUser(user.id!);
     return user;
   }
@@ -114,7 +114,7 @@ class UserProvider extends ChangeNotifier {
     await prefs.setInt(_prefsKey, id);
 
     final userMap = await _db.getUserById(id);
-    _currentUser = userMap == null ? null : AppUser.fromMap(userMap);
+    _currentUser = userMap == null ? null : User.fromMap(userMap);
     _isBootstrapped = true;
     notifyListeners();
   }

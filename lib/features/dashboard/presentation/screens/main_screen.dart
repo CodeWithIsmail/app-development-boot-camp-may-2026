@@ -3,7 +3,7 @@ import 'package:mexpense/core/constants/constants.dart';
 import 'package:mexpense/core/constants/data.dart';
 import 'package:mexpense/core/models/transaction.dart';
 import 'package:mexpense/features/auth/presentation/providers/user_provider.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:mexpense/features/dashboard/presentation/screens/add_expense_screen.dart';
 import 'package:mexpense/features/dashboard/presentation/widgets/money_dashboard.dart';
 import 'package:provider/provider.dart';

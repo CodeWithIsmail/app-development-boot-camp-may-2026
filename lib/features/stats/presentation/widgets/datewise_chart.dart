@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mexpense/core/constants/constants.dart';
-import 'package:mexpense/features/dashboard/presentation/providers/providers.dart';
+import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 
 class DatewiseChart extends StatelessWidget {
