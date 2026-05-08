@@ -135,6 +135,41 @@ class ExpenseProvider extends ChangeNotifier {
     return totals;
   }
 
+  Map<String, double> categoryTotalsInRange({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    if (startDate == null || endDate == null) return categoryTotals();
+
+    final DateTime normalizedStart = DateTime(
+      startDate.year,
+      startDate.month,
+      startDate.day,
+    );
+    final DateTime normalizedEnd = DateTime(
+      endDate.year,
+      endDate.month,
+      endDate.day,
+    );
+
+    final totals = {for (final cat in category) cat: 0.0};
+
+    for (final expense in _expenses.where((item) => item.title == 'Expense')) {
+      final expenseDate = DateTime(
+        expense.dateTime.year,
+        expense.dateTime.month,
+        expense.dateTime.day,
+      );
+      if (!expenseDate.isBefore(normalizedStart) &&
+          !expenseDate.isAfter(normalizedEnd)) {
+        totals[expense.category] =
+            (totals[expense.category] ?? 0.0) + expense.amount;
+      }
+    }
+
+    return totals;
+  }
+
   Map<String, double> dailyTotals(DateTime endDate, {int days = 15}) {
     final DateTime normalizedEnd = DateTime(
       endDate.year,

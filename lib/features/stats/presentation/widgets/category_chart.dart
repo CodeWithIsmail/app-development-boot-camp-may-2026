@@ -5,7 +5,10 @@ import 'package:mexpense/features/dashboard/presentation/providers/expense_provi
 import 'package:provider/provider.dart';
 
 class CategorywiseChart extends StatelessWidget {
-  const CategorywiseChart({super.key});
+  final DateTime? startDate;
+  final DateTime? endDate;
+
+  const CategorywiseChart({super.key, this.startDate, this.endDate});
 
   List<PieChartSectionData> showingSections(
     BuildContext context,
@@ -53,7 +56,13 @@ class CategorywiseChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expenses = context.watch<ExpenseProvider>().categoryTotals();
+    final provider = context.watch<ExpenseProvider>();
+    final expenses = (startDate == null || endDate == null)
+        ? provider.categoryTotals()
+        : provider.categoryTotalsInRange(
+            startDate: startDate,
+            endDate: endDate,
+          );
 
     if (expenses.isEmpty || expenses.values.every((value) => value == 0)) {
       return const Center(child: Text('No data available'));
