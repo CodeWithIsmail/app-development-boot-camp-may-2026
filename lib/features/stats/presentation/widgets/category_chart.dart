@@ -4,13 +4,25 @@ import 'package:mexpense/core/constants/data.dart';
 import 'package:mexpense/features/dashboard/presentation/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 
-class CategorywiseChart extends StatelessWidget {
+class CategorywiseChart extends StatefulWidget {
   final DateTime? startDate;
   final DateTime? endDate;
 
   const CategorywiseChart({super.key, this.startDate, this.endDate});
 
-  List<PieChartSectionData> showingSections(
+  @override
+  State<CategorywiseChart> createState() => _CategorywiseChartState();
+}
+
+class _CategorywiseChartState extends State<CategorywiseChart> {
+  int? _touchedIndex;
+
+  String _formatAmount(double a) {
+    if (a % 1 == 0) return a.toInt().toString();
+    return a.toStringAsFixed(2);
+  }
+
+  List<PieChartSectionData> _showingSections(
     BuildContext context,
     Map<String, double> expenses,
   ) {
@@ -27,17 +39,21 @@ class CategorywiseChart extends StatelessWidget {
 
       if (amount == 0) continue;
 
-      final fontSize = 16.0;
-      final radius = MediaQuery.of(context).size.width * 0.37;
+      final isSelected = _touchedIndex == i;
+      final fontSize = isSelected ? 16.0 : 14.0;
+      final radius = isSelected
+          ? MediaQuery.of(context).size.width * 0.43
+          : MediaQuery.of(context).size.width * 0.4;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
       final percentage = ((amount / total) * 100).toStringAsFixed(0);
+      final title = isSelected ? '${_formatAmount(amount)} Tk' : '$percentage%';
 
       sections.add(
         PieChartSectionData(
           color: colorMap[categoryName],
           value: amount,
-          title: '$percentage%',
+          title: title,
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -57,11 +73,11 @@ class CategorywiseChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<ExpenseProvider>();
-    final expenses = (startDate == null || endDate == null)
+    final expenses = (widget.startDate == null || widget.endDate == null)
         ? provider.categoryTotals()
         : provider.categoryTotalsInRange(
-            startDate: startDate,
-            endDate: endDate,
+            startDate: widget.startDate,
+            endDate: widget.endDate,
           );
 
     if (expenses.isEmpty || expenses.values.every((value) => value == 0)) {
@@ -78,7 +94,19 @@ class CategorywiseChart extends StatelessWidget {
           borderData: FlBorderData(show: false),
           sectionsSpace: 0,
           centerSpaceRadius: 0,
-          sections: showingSections(context, expenses),
+          sections: _showingSections(context, expenses),
+          pieTouchData: PieTouchData(
+            touchCallback: (event, response) {
+              if (response == null || response.touchedSection == null) {
+                setState(() => _touchedIndex = null);
+                return;
+              }
+              setState(
+                () => _touchedIndex =
+                    response.touchedSection!.touchedSectionIndex,
+              );
+            },
+          ),
         ),
       ),
     );

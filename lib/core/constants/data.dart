@@ -36,7 +36,7 @@ Map<String, Color> colorMap = {
   'Shopping': Colors.purple,
   'Education': Colors.green,
   'Transport': Colors.brown,
-  'Health': Colors.lime,
+  'Health': Colors.lime.shade800,
   'Entertainment': Colors.deepPurple,
   'Home': Colors.lightBlue,
   'Others': Colors.blueGrey,

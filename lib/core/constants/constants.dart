@@ -11,22 +11,25 @@ final appNameTextStyle = TextStyle(
   ],
 );
 
+const gradientColor1 = Color(0xFF71B280);
+const gradientColor2 = Color(0xFF134E5E);
+const List<Color> gradientColors = [gradientColor1, gradientColor2];
+
 final gradient = LinearGradient(
-  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
+  colors: gradientColors,
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
 );
 
 final colorList = ColorScheme.light(
   surface: Colors.grey.shade100,
   onSurface: Colors.black,
-  primary: Color(0xFF355C7D),
-  secondary: Color(0xFF6C5B7B),
-  tertiary: Color(0xFFC06C84),
+  primary: gradientColor1,
+  secondary: gradientColor2,
 );
 
 const welcomeTextStyle = TextStyle(
-  color: Colors.blueGrey,
+  color: gradientColor2,
   fontSize: 15,
   fontWeight: FontWeight.bold,
 );
@@ -43,17 +46,9 @@ const titleTextStyle = TextStyle(
   // fontWeight: FontWeight.bold,
 );
 
-const valueTextStyle = TextStyle(
-  color: Colors.white,
-  fontSize: 20,
-  // fontWeight: FontWeight.bold,
-);
+const valueTextStyle = TextStyle(color: Colors.white, fontSize: 20);
 
-const netBalTextStyle = TextStyle(
-  color: Colors.white,
-  fontSize: 15,
-  // fontWeight: FontWeight.bold,
-);
+const netBalTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 
 const balTextStyle = TextStyle(
   color: Colors.white,
@@ -64,7 +59,7 @@ const balTextStyle = TextStyle(
 const addTextStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
 
 final barGradient = LinearGradient(
-  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
+  colors: gradientColors,
   begin: Alignment.bottomCenter,
   end: Alignment.topCenter,
 );
@@ -80,12 +75,10 @@ final barChartBottomStyle = TextStyle(
   fontSize: 7,
 );
 
-const customGradient = LinearGradient(
-  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
-);
+const customGradient = LinearGradient(colors: gradientColors);
 
 const dashboardGradient = LinearGradient(
-  colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
+  colors: gradientColors,
   transform: GradientRotation(pi / 4),
 );
 
