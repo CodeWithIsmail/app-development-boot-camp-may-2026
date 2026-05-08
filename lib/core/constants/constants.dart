@@ -80,12 +80,6 @@ final barChartBottomStyle = TextStyle(
   fontSize: 7,
 );
 
-const transactionTextStyle = TextStyle(
-  color: Colors.black,
-  fontSize: 25,
-  fontWeight: FontWeight.bold,
-);
-
 const customGradient = LinearGradient(
   colors: [Color(0xFF355C7D), Color(0xFF6C5B7B), Color(0xFFC06C84)],
 );
