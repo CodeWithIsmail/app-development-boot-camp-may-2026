@@ -13,9 +13,7 @@
 
 # MExpense
 
-A robust, offline-first personal finance tracker built with Flutter. 
-
-MExpense is an offline-first expense tracking application built with Flutter and Dart. It is structured around feature-first modularity, Separation of Concerns, and predictable state flow. The project is engineered for maintainability, scalability, and production-quality code organization.
+MExpense is an offline-first personal expense tracking application built with Flutter and Dart.
 
 <p align="center">
 	<img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" />
@@ -29,7 +27,7 @@ MExpense is an offline-first expense tracking application built with Flutter and
 
 <p align="center">
   <a href="https://youtube.com/shorts/_9q59Zxy3Wk?feature=share">
-    <img src="https://img.youtube.com/vi/_9q59Zxy3Wk/maxresdefault.jpg" width="800"/>
+    <img src="https://img.youtube.com/vi/_9q59Zxy3Wk/maxresdefault.jpg" width="80%" height=50%/>
   </a>
 </p>
 
@@ -51,18 +49,6 @@ MExpense is an offline-first expense tracking application built with Flutter and
   <img src="assets/ui/4-add%20transaction.jpg" width="30%"/>
   <img src="assets/ui/5-date-expense%20bar%20chart.jpg" width="30%"/>
   <img src="assets/ui/6-category-expense%20pie%20chart.jpg" width="30%"/>
-</p>
-
----
-
-## Overview
-
-MExpense manages personal finance workflows including authentication, transaction tracking, dashboard summaries, and statistical visualization. The technical focus is on disciplined architecture: clear layering, reusable UI building blocks, and stable local persistence. This architecture matters because it reduces coupling between presentation, state orchestration, and data access, which improves long-term delivery speed and maintainability.
-
-<p align="center">
-	<img src="https://img.shields.io/badge/Architecture-Feature--First-green?style=for-the-badge" />
-	<img src="https://img.shields.io/badge/Code_Style-Clean_Architecture-orange?style=for-the-badge" />
-	<img src="https://img.shields.io/badge/Offline--First-Enabled-success?style=for-the-badge&logo=icloud" />
 </p>
 
 ---
